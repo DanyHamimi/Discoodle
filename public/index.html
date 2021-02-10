@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Discoodog</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+
+</head>
+<body>
+    <div id="message"></div>
+    <form action="">
+        <input id = "msg" autocomplete="off" /><button>Envoyer</button>
+    </form>
+    <script>
+        $(function (){
+            var socket = io();
+            $("form").submit(function(e) {
+                e.preventDefault(); // Pour pas que la page se recharge
+                socket.emit("MessageSend",$("#msg").val()) //Envoyer au socket la val de #msg
+                $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
+                return false;
+            });
+
+            socket.on('MessageSend', function(msg){
+                $("#message").append($("<p>").text(msg));
+            });
+        });
+    </script>
+    
+</body>
+</html>
