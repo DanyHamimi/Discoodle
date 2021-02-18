@@ -1,0 +1,31 @@
+.content-box
+{
+   width:70vw; /* or whatever width you want. */
+   height: 90vh;
+   background-color: #23272A;
+   overflow-y:scroll;
+   position: absolute;
+   left: 450px;
+   border:1px solid;
+   -moz-border-radius:10px 10px;
+   -webkit-border-radius:10px 10px;
+   border-radius:10px 0;
+}
+.send{
+   position: relative;
+   top: 97%;
+}
+p
+{
+   color: white;
+   text-decoration: solid;
+   font-size: large;
+   margin-left: 10px;
+}
+input, select, textarea{
+   color: white;
+   background: #99aab5;
+}
+textarea:focus, input:focus {
+   color: white;
+}
