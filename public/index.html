@@ -11,15 +11,11 @@
 
 </head>
 <body style="background-color: #2c2f33;">
-    <div class="content-box">
-        <div class="send">
-            <form action="">
-                <input id = "msg" autocomplete="off" /><button>Envoyer</button>
-            </form>
-        </div>
-    </div>
+    <div class="content-box"></div>
     <div id="message"></div>
-    
+    <form action="">
+        <input id = "msg" autocomplete="off" /><button>Envoyer</button>
+    </form>
     <script>
         function get(name){
             var url = window.location.search;
@@ -29,13 +25,22 @@
             var front = url.substring(0, frontlength);  
             url = url.replace(front, "");  
             num = url.search("&");
-
             if(num>=0) return url.substr(0,num); 
             if(num<0)  return url;             
         }
+
+
         $(function (){
             var socket = io();
-            var username = get("name");
+            const def = "Utilisateur"
+            const name = prompt('Entrer votre nom:',def);
+            while(name.length == 0 ){
+                name = prompt('Entrer votre nom:');
+            }
+            socket.emit('user-created',name);
+           
+        
+            var username = name;
             $("form").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
                 socket.emit("MessageSend",username, $("#msg").val()) //Envoyer au socket la val de #msg
@@ -44,8 +49,6 @@
             });
          
             socket.on('MessageSend', function(name,msg){
-                
-                
                 var tag = document.createElement("p"); // <p></p>
                 var text = document.createTextNode(name+': '+msg); 
                 tag.appendChild(text); // <p>TEST TEXT</p>
