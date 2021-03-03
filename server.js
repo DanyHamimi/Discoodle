@@ -8,7 +8,6 @@ const port = process.env.PORT || 5000;
 
 const user = [];
 
-
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true })); 
 
@@ -43,6 +42,7 @@ io.on('connection', (socket) => {
         if(user[socket.id]){
             console.log('Utilisateur déconnecté');
             delete user[socket.id];
+            socket.leave(socket.room);
         }
     });
 
@@ -55,7 +55,6 @@ io.on('connection', (socket) => {
             io.emit('MessageSend',name,msg);
         }
     });
-
 
 
 });

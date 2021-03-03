@@ -1,5 +1,6 @@
 .content-box
 {
+   margin-left: 70px;
    width:95vw; /* or whatever width you want. */
    height: 90vh;
    background-color: #23272A;
@@ -12,9 +13,50 @@ p
    font-size: large;
 }
 input, select, textarea{
+   margin-top: 10px;
+   margin-left: 70px;
    color: white;
    background: #99aab5;
 }
 textarea:focus, input:focus {
    color: white;
 }
+
+.sidenav {
+   height: 100%;
+   width: 70px;
+   position: fixed;
+   z-index: 1;
+   top: 0;
+   left: 0;
+   background-color: #27292b;
+   overflow-x: hidden;
+}
+
+.sidenav a {
+   height: 64px;
+   width: 64px;
+   font-size: 32px;
+   text-align: center;
+   margin-top: 10px;
+   text-decoration: none;
+   background-color: #50595f;
+   border-radius: 50%;
+   display: inline-block;
+}
+
+.sidenav img {
+   display:block;
+   border-radius: 50%;
+   height: 64px;
+   width: 64px;
+}
+
+
+ 
+.sidenav a:hover {
+   text-decoration:none; 
+   cursor:pointer;  
+   color: #f1f1f1;
+}
+ 

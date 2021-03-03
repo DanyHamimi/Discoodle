@@ -11,11 +11,19 @@
 
 </head>
 <body style="background-color: #2c2f33;">
-    <div class="content-box"></div>
+    <div class="content-box">
+    </div>
     <div id="message"></div>
     <form action="">
         <input id = "msg" autocomplete="off" /><button>Envoyer</button>
+
     </form>
+    <div class="sidenav">
+        <a href="./"><img src="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/64x64/dog.png"/></a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+    </div>
     <script>
         function get(name){
             var url = window.location.search;
@@ -29,7 +37,6 @@
             if(num<0)  return url;             
         }
 
-
         $(function (){
             var socket = io();
             const def = "Utilisateur"
@@ -38,8 +45,6 @@
                 name = prompt('Entrer votre nom:');
             }
             socket.emit('user-created',name);
-           
-        
             var username = name;
             $("form").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
@@ -47,10 +52,9 @@
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
                 return false;
             });
-         
             socket.on('MessageSend', function(name,msg){
-                var tag = document.createElement("p"); // <p></p>
-                var text = document.createTextNode(name+': '+msg); 
+                var tag = document.createElement("p");
+                var text = document.createTextNode(name+': '+msg);
                 tag.appendChild(text); // <p>TEST TEXT</p>
                 var element = document.getElementsByTagName("div")[0];
                 element.appendChild(tag);
