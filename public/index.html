@@ -1,21 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Discoodog</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="stylesheet" href="chatpage.css">
-    <script src='/socket.io/socket.io.js'></script>
-    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+    <meta charset="UTF-8">
+    <title>Discoodle</title>
+    <link rel='stylesheet' href='https://codepen.io/tutsplus/pen/WROvdG.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'><link rel="stylesheet" href="./style.css">
+  <script src='/socket.io/socket.io.js'></script>
+  <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+  
 
 </head>
 <body style="background-color: #2c2f33;">
     <div class="content-box"></div>
     <div id="message"></div>
-    <form action="">
-        <input id = "msg" autocomplete="off" /><button>Envoyer</button>
-    </form>
+    
+    <div class="container">
+        <div class="row valign-wrapper no-valign-wrap-on-mobile">
+          <div class="col s12 l19">
+            <div class="discord-mockup z-depth-3">
+              <div class="items-panel">
+                <div class="items">
+                  <div class="item">
+                    <button class="guild-add">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="sidebar-panel hide-on-med-and-down">
+                <div class="header">Projet de Programmation</div>
+                <div class="items"><a href="#">
+                    <div class="item trigger-group" data="Progra">Programmation</div>
+                    <div class="item trigger-group" data="ea4">EA4</div>
+                    <div class="item trigger-group" data="Stats">Stats</div>
+                </a></div>
+              </div>
+              <div class="messages-panel" id="messages-panel">
+                <div class="messages-group hide-unless-show" id="Progra">
+                  <div class="header">Général</div>
+                  <div class="messages" id = "Progra0">
+                  </div>
+                </div>
+                <div class="messages-group hide-unless-show" id="ea4">
+                  <div class="header">ea4</div>
+                  <div class="messages" id = "ea40">
+                    <div class="message">
+                      <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
+                      <div class="body">
+                        <div class="user-name">Gnar</div>
+                        <div class="content">I'm lonely.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="messages-group hide-unless-show" id="Stats">
+                  <div class="header">Stats</div>
+                  <div class="messages">
+                    <div class="message"  id = "Stats0">
+                      <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
+                      <div class="body">
+                        <div class="user-name">Gnar</div>
+                        <div class="content">Non-embedded message.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form action="" class="msg-form">
+                  <input id = "msg" autocomplete="off" class="msg-input"/><button class="msg-button">Envoyer</button>
+                </form>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script><script  src="./script.js"></script>
     <script>
         function get(name){
             var url = window.location.search;
@@ -49,11 +107,11 @@
             });
          
             socket.on('MessageSend', function(name,msg){
-                var tag = document.createElement("p"); // <p></p>
-                var text = document.createTextNode(name+': '+msg); 
-                tag.appendChild(text); // <p>TEST TEXT</p>
-                var element = document.getElementsByTagName("div")[0];
-                element.appendChild(tag);
+              element = document.getElementById('messages-panel');
+              element.scrollTop = element.scrollHeight;
+              var node = document.getElementById(defaultId+'0');
+              console.log(defaultId);
+              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content">'+msg+'</div> </div> </div>');
             });
         });
     </script>
