@@ -39,6 +39,8 @@
     margin-top: 0 !important;
   }
 }
+
+
 .discord-mockup .section-header, .discord-mockup .messages-panel .messages-group .header, .discord-mockup .sidebar-panel .header {
   position: absolute;
   z-index: 1;
@@ -88,6 +90,7 @@
   color: white;
   height: 50px;
   width: 50px;
+  
 }
 .discord-mockup .items-panel .items .item img {
   border-radius: 50%;
@@ -109,6 +112,7 @@
   font-weight: 200;
   text-align: center;
   line-height: 50px;
+  margin-top: 20px;
 }
 .discord-mockup .items-panel .items .item .guild-add:hover {
   border: 1px dashed white;
@@ -260,6 +264,7 @@
   position: absolute;
   top: 94%;
   
+  
  
 }
 
@@ -271,7 +276,7 @@
   height: 100%;
   border: none;
   color: white;
-
+  padding: 0px 20px;
   border-radius: 10px;
 
 }

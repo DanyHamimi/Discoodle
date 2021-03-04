@@ -22,7 +22,14 @@
               <div class="items-panel">
                 <div class="items">
                   <div class="item">
-                    <button class="guild-add">+</button>
+                    <div id="item">
+                      <button class="guild-add">A</button>
+                      <button class="guild-add">B</button>
+                      <button class="guild-add">C</button>
+                      <button class="guild-add">D</button>
+                      <button class="guild-add">E</button>
+                    </div>  
+                    <button class="guild-add" onclick="addChan()">+</button>
                   </div>
                 </div>
               </div>
@@ -87,6 +94,10 @@
             if(num<0)  return url;             
         }
 
+
+        function addChan(){
+          document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add">E</button>');
+        }
 
         $(function (){
             var socket = io();
