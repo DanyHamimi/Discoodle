@@ -1,3 +1,7 @@
+html { overflow-y: hidden; } 
+::-webkit-scrollbar {
+  display: none;
+  }
 .discord-mockup {
   background: #36393e;
   position: relative;
@@ -40,6 +44,13 @@
   }
 }
 
+
+.row-full {
+  width: 100vw;
+  position: relative;
+  margin-left: -50vw;
+  left: 50%;
+}
 
 .discord-mockup .section-header, .discord-mockup .messages-panel .messages-group .header, .discord-mockup .sidebar-panel .header {
   position: absolute;
@@ -261,22 +272,33 @@
 .discord-mockup .messages-panel .msg-form{
   height: 50px;
   width: 100%;
-  position: absolute;
-  top: 94%;
-  
-  
  
+
 }
 
+.discord-mockup .messages-panel .msg-input{
+  height: auto;
+  width: 100%;
+  position: fixed;
+  top: 84%;
+  margin-top: 20px;
+}
+
+.discord-mockup .messages-panel .test{
+  height: 850px;
+  overflow-y: scroll;
+}
+
+
 .discord-mockup .messages-panel .msg-form .msg-input{
-  position: inherit;
+  position:absolute;
   background-color: #242424;
   left: 20px;
-  width: 72%;
+  width: 79.5%;
   height: 100%;
   border: none;
   color: white;
-  padding: 0px 20px;
+  padding: 0px 20px; 
   border-radius: 10px;
 
 }

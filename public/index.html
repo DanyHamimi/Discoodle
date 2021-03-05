@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Discoodle</title>
-    <link rel='stylesheet' href='https://codepen.io/tutsplus/pen/WROvdG.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'><link rel="stylesheet" href="./style.css">
   <script src='/socket.io/socket.io.js'></script>
@@ -16,7 +15,7 @@
     <div id="message"></div>
     
     <div class="container">
-        <div class="row valign-wrapper no-valign-wrap-on-mobile">
+        <div class="row-full">
           <div class="col s12 l19">
             <div class="discord-mockup z-depth-3">
               <div class="items-panel">
@@ -42,44 +41,48 @@
                 </a></div>
               </div>
               <div class="messages-panel" id="messages-panel">
-                <div class="messages-group hide-unless-show" id="Progra">
-                  <div class="header">Général</div>
-                  <div class="messages" id = "Progra0">
+                <div class="test" id="test">
+                  <div class="messages-group hide-unless-show" id="Progra">
+                    <div class="header">Général</div>
+                    <div class="messages" id = "Progra0">
+                    </div>
                   </div>
-                </div>
-                <div class="messages-group hide-unless-show" id="ea4">
-                  <div class="header">ea4</div>
-                  <div class="messages" id = "ea40">
-                    <div class="message">
-                      <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
-                      <div class="body">
-                        <div class="user-name">Gnar</div>
-                        <div class="content">I'm lonely.</div>
+                  <div class="messages-group hide-unless-show" id="ea4">
+                    <div class="header">ea4</div>
+                    <div class="messages" id = "ea40">
+                      <div class="message">
+                        <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
+                        <div class="body">
+                          <div class="user-name">Gnar</div>
+                          <div class="content">I'm lonely.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Stats">
+                    <div class="header">Stats</div>
+                    <div class="messages">
+                      <div class="message"  id = "Stats0">
+                        <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
+                        <div class="body">
+                          <div class="user-name">Gnar</div>
+                          <div class="content">Non-embedded message.</div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="messages-group hide-unless-show" id="Stats">
-                  <div class="header">Stats</div>
-                  <div class="messages">
-                    <div class="message"  id = "Stats0">
-                      <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
-                      <div class="body">
-                        <div class="user-name">Gnar</div>
-                        <div class="content">Non-embedded message.</div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="msg-input">
+                  <form action="" class="msg-form">
+                    <input id = "msg" autocomplete="off" class="msg-input"/><button class="msg-button">Envoyer</button>
+                  </form>
                 </div>
-                <form action="" class="msg-form">
-                  <input id = "msg" autocomplete="off" class="msg-input"/><button class="msg-button">Envoyer</button>
-                </form>
               </div>
             </div>
             
           </div>
         </div>
-      </div>
+    </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script><script  src="./script.js"></script>
     <script>
         function get(name){
@@ -114,12 +117,19 @@
                 e.preventDefault(); // Pour pas que la page se recharge
                 socket.emit("MessageSend",username, $("#msg").val()) //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
+
+                element = document.getElementById('test');
+				        element.scrollTop = element.scrollHeight;
                 return false;
             });
          
             socket.on('MessageSend', function(name,msg){
-              element = document.getElementById('messages-panel');
-              element.scrollTop = element.scrollHeight;
+              if(msg==""){
+                return false;
+              }
+              
+              element = document.getElementById('test');
+				      element.scrollTop = element.scrollHeight;
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
               node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content">'+msg+'</div> </div> </div>');
