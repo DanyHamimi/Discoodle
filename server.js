@@ -14,11 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', (req,res) => {
-    res.sendFile(`${__dirname}/public/index.html`);
+    res.sendFile(`${__dirname}/public/index.html`)
 })
 
 app.post('/index.html', function (req, res) {
-    res.redirect(`/index.html?name=${req.body.name}`);
+    res.redirect(`/index.html?name=${req.body.name}`)
     console.log(`Full name is:${req.body.name} .`);
 })
 
@@ -26,42 +26,38 @@ app.post('/index.html', function (req, res) {
 io.on('connection', (socket) => {
 
     socket.on('user-created', name => {
-        console.log('Utilisateur connecté');
-        user[socket.id] = name;
+        console.log('Utilisateur connecté'),
+        user[socket.id] = name
         io.emit('MessageSend',name,"est connecté");
     });
 
     socket.on('disconnecting', () => {
-        if(user[socket.id]){
-            io.emit('MessageSend', user[socket.id],"s'est déconnecté");
-            console.log(socket.rooms); // Set contient le socket ID
-        }
+        io.emit('MessageSend', user[socket.id],"s'est déconnecté");
+        console.log(socket.rooms); // Set contient le socket ID
     });
 
 
     socket.on('disconnect', () => {
-        if(user[socket.id]){
-            console.log('Utilisateur déconnecté');
-            delete user[socket.id];
-        }
+        console.log('Utilisateur déconnecté'),
+        // Quand le serveur crash ou redémarre user == null 
+        delete user[socket.id];
     });
 
-
     socket.on('MessageSend',(name,msg) =>{
-        if (!name) {
-            return next(new Error("Vous n'avez pas de NOM!"));
-        }
         if ( name && name.length>0 && name !=null){
             io.emit('MessageSend',name,msg);
         }
     });
 
-
+    socket.on('join-room', (userId) => { //Système de room pour le WebRTC - userId est l'ID peer unique de l'utilsateur
+        console.log(userId)
+        io.emit('user-joined', userId);
+    });
 
 });
 
 
 server.listen(port, () =>{
-    console.log(`Ca demarre sur le port ${port}`);
-    console.log(`http://discoo.dog:${port}/`);
+    console.log(`Ca demarre sur le port ${port}`)
+    console.log(`http://discoo.dog:${port}/`)
 });
