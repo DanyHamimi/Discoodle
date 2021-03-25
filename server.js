@@ -1,5 +1,8 @@
 var express = require('express');
+var mysql = require('mysql');
+var session = require('express-session');
 var app = express();
+var path = require('path');
 const bodyParser = require('body-parser');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {'pingTimeout': 180000, 'pingInterval': 25000});
@@ -8,13 +11,27 @@ const port = process.env.PORT || 5000;
 
 const user = [];
 
+var connection = mysql.createConnection({
+	host     : 'localhost',
+	user     : 'root',
+	password : '',
+	database : 'nodelogin'
+});
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true })); 
 
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+
 
 app.get('/', (req,res) => {
-    res.sendFile(`${__dirname}/public/index.html`)
+    res.sendFile(`${__dirname}/index.html`)
 })
 
 app.post('/index.html', function (req, res) {
@@ -22,6 +39,34 @@ app.post('/index.html', function (req, res) {
     console.log(`Full name is:${req.body.name} .`);
 })
 
+app.post('/auth', function(request, response) {
+	var username = request.body.username;
+	var password = request.body.password;
+	if (username && password) {
+		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+			if (results.length > 0) {
+				request.session.loggedin = true;
+				request.session.username = username;
+				response.redirect('/home.html');
+			} else {
+				response.send('Incorrect Username and/or Password!');
+			}			
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
+
+app.get('/home', function(request, response) {
+	if (request.session.loggedin) {
+		response.send('Welcome back, ' + request.session.username + '!');
+	} else {
+		response.send('Please login to view this page!');
+	}
+	response.end();
+});
 
 io.on('connection', (socket) => {
 
