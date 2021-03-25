@@ -103,10 +103,14 @@
 
                 </div>
                 <div class="msg-input">
-                  <form action="" class="msg-form">
+                  <form id= "msgform" action="" class="msg-form">
                     <input id = "msg" autocomplete="off" class="msg-input"/><button class="msg-button">Envoyer</button>
                   </form>
                 </div>
+                <form method="post" enctype="multipart/form-data" action="/upload">
+                  <input type="file" name="file">
+                  <input type="submit" value="Submit">
+              </form>
               </div>
             </div>
             
@@ -146,7 +150,7 @@
            
         
             var username = name;
-            $("form").submit(function(e) {
+            $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
                 socket.emit("MessageSend",username, $("#msg").val()) //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
@@ -162,6 +166,14 @@
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
               node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content">'+msg+'</div> </div> </div>');
+            });
+
+            socket.on('ImageSend', function(name,img){
+              element = document.getElementById('test');
+				      element.scrollTop = element.scrollHeight;
+              var node = document.getElementById(defaultId+'0');
+              console.log(defaultId);
+              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content"> <img src="'+img+'"/></div> </div> </div>');
             });
         });
     </script>
