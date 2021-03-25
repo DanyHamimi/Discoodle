@@ -9,8 +9,10 @@ const path = require('path');
 const fs = require('fs');
 
 
+app.use(express.urlencoded());
 app.use(express.static('img'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 
 const user = [];
@@ -98,10 +100,12 @@ app.post(
       if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg" || path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
         fs.rename(original, target, err => {
           if (err) return errHandler(err, res);
-          io.emit("ImageSend", "TODO: GetUsername", a.slice(9));
-          res
+          io.emit("ImageSend", req.body.uname, a.slice(9));
+          //TODO: PAGE LOADS INFINITELY.
+          /*res
             .status(200)
-            .contentType("text/plain");
+            .contentType("text/plain")
+            .redirect();*/
             
         });
       } else {

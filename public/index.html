@@ -109,6 +109,7 @@
                 </div>
                 <form method="post" enctype="multipart/form-data" action="/upload">
                   <input type="file" name="file">
+                  <input type="hidden" id="uname" value="rayan" name="uname">
                   <input type="submit" value="Submit">
               </form>
               </div>
@@ -147,6 +148,7 @@
                 name = prompt('Entrer votre nom:');
             }
             socket.emit('user-created',name);
+            document.getElementById("uname").setAttribute('value',name);
            
         
             var username = name;
@@ -173,7 +175,7 @@
 				      element.scrollTop = element.scrollHeight;
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
-              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content"> <img src="'+img+'"/></div> </div> </div>');
+              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content"> <img src="'+img+'" style="max-width: 500px;"/></div> </div> </div>');
             });
         });
     </script>
