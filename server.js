@@ -4,6 +4,38 @@ const bodyParser = require('body-parser');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {'pingTimeout': 180000, 'pingInterval': 25000});
 const port = process.env.PORT || 5000;
+var mysql = require('mysql');
+
+/*
+mysql -u root -p
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+FLUSH PRIVILEGES;
+password
+
+CREATE DATABASE IF NOT EXISTS `nodelogin` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `nodelogin`;
+
+CREATE TABLE IF NOT EXISTS `message_log` (
+  `username` varchar(50) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+*/
+
+var connection = mysql.createConnection({
+	host     : 'localhost',
+	user     : 'newuser',
+	password : 'password',
+	database : 'nodelogin'
+});
+
+connection.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
 
 const user = [];
@@ -20,6 +52,18 @@ app.get('/', (req,res) => {
 app.post('/index.html', function (req, res) {
     res.redirect(`/index.html?name=${req.body.name}`)
     console.log(`Full name is:${req.body.name} .`);
+})
+
+app.get('/messages', function(req,res){
+    connection.query("SELECT * FROM message_log", function (err, rows, fields) {
+        if (err) throw err;
+        else{
+            res.render('index', { title: 'Data Saved',
+            items: rows })
+        }
+    })
+    connection.end();
+    
 })
 
 
@@ -46,6 +90,9 @@ io.on('connection', (socket) => {
     socket.on('MessageSend',(name,msg) =>{
         if ( name && name.length>0 && name !=null){
             io.emit('MessageSend',name,msg);
+            connection.query('INSERT INTO message_log (username, message, id, date) VALUES (?, ?, ?, ?)', [ name, msg, socket.id, new Date() ], function(error, results, fields){
+                    if(error) throw error;
+            });     
         }
     });
 
