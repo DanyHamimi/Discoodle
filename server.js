@@ -54,18 +54,15 @@ app.post('/index.html', function (req, res) {
     console.log(`Full name is:${req.body.name} .`);
 })
 
-app.get('/messages', function(req,res){
-    connection.query("SELECT * FROM message_log", function (err, rows, fields) {
+app.get('/messages', function (req, res) {
+    console.log('GET request received at /messages') 
+    connection.query("SELECT * FROM message_log", function (err, result) {
         if (err) throw err;
         else{
-            res.render('index', { title: 'Data Saved',
-            items: rows })
+            res.send(result)
         }
-    })
-    connection.end();
-    
-})
-
+    });
+});
 
 io.on('connection', (socket) => {
 
