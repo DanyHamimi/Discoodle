@@ -19,7 +19,7 @@
             <h3>Projet de Programmation</h3><hr/>
             
             <div class="nav-content">
-              <ul class="tabs tabs-transparent" style="background-color:#0a0b0c;"">
+              <ul class="tabs tabs-transparent" style="background-color:#0a0b0c;">
                 <li class="tab"><a href="https://www.google.com/">AAL</a></li>
                 <li class="tab"><a class="active" href="https://www.google.com/">OL</a></li>
                 <li class="tab "><a href="https://www.google.com/">C</a></li>
@@ -29,11 +29,11 @@
           
             <div class="subnav">
               <ul>
-                <li><a href="https://www.google.com/"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
+                <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
                 <li><a class="active" href="https://www.google.com/"><i class="fa fa-address-card" aria-hidden="true"></i> Profil</a></li>
-                <li><a href="inde"><i class="fa fa-paper-plane" aria-hidden="true"></i> Messages</a></li>
+                <li><a href="index.html"><i class="fa fa-paper-plane" aria-hidden="true"></i> Messages</a></li>
                 <li><a href="https://www.google.com/"><i class="fa fa-life-ring" aria-hidden="true"></i> Préférences</a></li>
-                <li><a href="https://www.google.com/"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Écrire un article</a></li>
+                <li><a href="writeArticle.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Écrire un article</a></li>
               </ul>
             </div>
             
@@ -57,31 +57,10 @@
    
         <div class="col s12 m8 l9" id="main">
           <h2 id="center">Actualités</h2><hr/>
-            <div class="col s10 m6" id="important">
-              <div class="card grey lighten-5 z-depth-1">
-                <div class="card-content black-text">
-                  <span class="card-title" id="card-ano">INFORMATIONS:</span><span class="card-title" id="card-sub">25/03/2021</span><hr/>
-                  <p>Bienvenue sur Discoodog les infos importantes vont être affichées ici.</p>
-                </div>
-              </div>
-            </div>
+          <div class="col s10 m6" id="important">
             <!-- Partie Droite -->
-            <div class="col s10 m6" id="news">
-                  <div class="card-panel grey lighten-5 z-depth-1">
-                    <div class="row">
-                      <div class="col s2">
-                        <img src="https://materializecss.com/images/yuna.jpg" alt="" class="circle responsive-img">
-                      </div>
-                      <span id="card-notif" class="card-title">Dany HAMIMI</span><hr/>
-                      
-                      <div class="col s10">
-                        <span class="black-text">
-                          Et les "articles" ici !
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-            </div>
+          <div class="col s10 m6" id="news">
+          </div>
         </div>
     </div>
     
@@ -90,3 +69,22 @@
 </body>
 
 </html>
+<script>
+  var connection = mysql.createConnection({
+	host     : 'localhost',
+	user     : 'root',
+	password : '',
+	database : 'discoodle'
+  });
+
+  var query = 'SELECT * FROM articles WHERE type = 0';
+
+  connection.connect();
+
+  connection.query(query, function(err, rows, fields) {
+    if (err) throw err;
+
+    console.log(rows) // log all matching rows.
+});
+  
+</script>

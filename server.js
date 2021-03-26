@@ -1,5 +1,8 @@
 var express = require('express');
+var mysql = require('mysql');
+var session = require('express-session');
 var app = express();
+var path = require('path');
 const bodyParser = require('body-parser');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {'pingTimeout': 180000, 'pingInterval': 25000});
@@ -8,13 +11,27 @@ const port = process.env.PORT || 5000;
 
 const user = [];
 
+var connection = mysql.createConnection({
+	host     : 'localhost',
+	user     : 'root',
+	password : '',
+	database : 'discoodle'
+});
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true })); 
 
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+
 
 app.get('/', (req,res) => {
-    res.sendFile(`${__dirname}/public/index.html`)
+    res.sendFile(`${__dirname}/index.html`)
 })
 
 app.post('/index.html', function (req, res) {
@@ -22,6 +39,45 @@ app.post('/index.html', function (req, res) {
     console.log(`Full name is:${req.body.name} .`);
 })
 
+app.post('/writeArticle.html', function (req, res) {
+    var p1 = req.param("fradio");
+    console.log(p1);
+    var p2 = req.param("text");
+    console.log(p2);
+    var p3 = req.param("articletext");
+    console.log(p3);
+    var sql = "INSERT INTO articles (nom, contenu,auteur,type) VALUES ('"+p2+"','"+p3+"','Default','"+p1+"')";
+    connection.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+    res.redirect("/home.html");
+})
+
+app.post('/auth', function(request, response) {
+	var username = request.body.username;
+	var password = request.body.password;
+	if (username && password) {
+		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+			if (results.length > 0) {
+				request.session.loggedin = true;
+				request.session.username = username;
+				response.redirect('/home.html');
+			} else {
+                request.session.username = username;
+				response.send('Incorrect Username and/or Password!'+request.session.username);
+			}			
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
+
+app.get('/home.html', function(req, res) {
+    console.log('toto');
+});
 
 io.on('connection', (socket) => {
 
