@@ -108,9 +108,8 @@
                   </form>
                 </div>
                 <form method="post" enctype="multipart/form-data" action="/upload">
-                  <input type="file" name="file">
+                  <input type="file" name="file" accept=".jpg, .jpeg, .png" onchange="this.form.submit()">>
                   <input type="hidden" id="uname" value="rayan" name="uname">
-                  <input type="submit" value="Submit">
               </form>
               </div>
             </div>
