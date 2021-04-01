@@ -161,7 +161,8 @@
 				      element.scrollTop = element.scrollHeight;
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
-              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content">'+msg+'</div> </div> </div>');
+              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+
             });
         });
     </script>

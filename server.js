@@ -67,9 +67,10 @@ app.get('/messages', function (req, res) {
 io.on('connection', (socket) => {
 
     socket.on('user-created', name => {
-        console.log('Utilisateur connecté'),
-        user[socket.id] = name
-        io.emit('MessageSend',name,"est connecté");
+        console.log('Utilisateur connecté');
+        user[socket.id] = name;
+        var heure =new Date();
+        io.emit('MessageSend',name,"est connecté",heure.getHours()+':'+ heure.getMinutes()+':'+ heure.getSeconds());
     });
 
     socket.on('disconnecting', () => {
@@ -84,9 +85,10 @@ io.on('connection', (socket) => {
         delete user[socket.id];
     });
 
-    socket.on('MessageSend',(name,msg) =>{
+    socket.on('MessageSend',(name,msg,hour) =>{
         if ( name && name.length>0 && name !=null){
-            io.emit('MessageSend',name,msg);
+            var heure =new Date();
+            io.emit('MessageSend',name,msg,heure.getHours()+':'+ heure.getMinutes()+':'+ heure.getSeconds());
             connection.query('INSERT INTO message_log (username, message, id, date) VALUES (?, ?, ?, ?)', [ name, msg, socket.id, new Date() ], function(error, results, fields){
                     if(error) throw error;
             });     
