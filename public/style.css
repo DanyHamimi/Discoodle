@@ -270,18 +270,15 @@ html { overflow-y: hidden; }
 }
 
 .discord-mockup .messages-panel .msg-form{
-  height: 50px;
+  height: 20px;
   width: 100%;
- 
-
 }
 
 .discord-mockup .messages-panel .msg-input{
   height: auto;
   width: 100%;
   position: fixed;
-  top: 84%;
-  margin-top: 20px;
+  top: 82%;
 }
 
 .discord-mockup .messages-panel .test{
@@ -312,4 +309,27 @@ html { overflow-y: hidden; }
   border: none;
   border-radius: 10px;
 
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.msg{
+  text-align: center;
+}
+
+.custom-file-upload {
+  position: relative;
+  z-index: 3;
+  color:black;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  margin-left: 35px;
+  bottom: -35px;
 }

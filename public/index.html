@@ -104,13 +104,16 @@
                 </div>
                 <div class="msg-input">
                   <form id= "msgform" action="" class="msg-form">
-                    <input id = "msg" autocomplete="off" class="msg-input"/><button class="msg-button">Envoyer</button>
+                    <input id = "msg" autocomplete="off" class="msg-input"/>
+                  </form>
+                  <form method="post" enctype="multipart/form-data" action="/upload">
+                    <label for="file-upload" class="custom-file-upload">
+                       +
+                  </label>
+                    <input id="file-upload" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="this.form.submit()"">
+                    <input type="hidden" id="uname" value="rayan" name="uname">
                   </form>
                 </div>
-                <form method="post" enctype="multipart/form-data" action="/upload">
-                  <input type="file" name="file" accept=".jpg, .jpeg, .png" onchange="this.form.submit()">
-                  <input type="hidden" id="uname" value="rayan" name="uname">
-              </form>
               </div>
             </div>
             
