@@ -315,9 +315,7 @@ input[type="file"] {
   display: none;
 }
 
-.msg{
-  text-align: center;
-}
+
 
 .custom-file-upload {
   position: relative;
