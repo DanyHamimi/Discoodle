@@ -103,8 +103,15 @@
 
                 </div>
                 <div class="msg-input">
-                  <form action="" class="msg-form">
-                    <input id = "msg" autocomplete="off" class="msg-input"/><button class="msg-button">Envoyer</button>
+                  <form id= "msgform" action="" class="msg-form">
+                    <input id = "msg" autocomplete="off" class="msg-input"/>
+                  </form>
+                  <form method="post" enctype="multipart/form-data" action="/upload">
+                    <label for="file-upload" class="custom-file-upload">
+                       +
+                  </label>
+                    <input id="file-upload" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="this.form.submit()"">
+                    <input type="hidden" id="uname" value="rayan" name="uname">
                   </form>
                 </div>
               </div>
@@ -143,10 +150,11 @@
                 name = prompt('Entrer votre nom:');
             }
             socket.emit('user-created',name);
+            document.getElementById("uname").setAttribute('value',name);
            
         
             var username = name;
-            $("form").submit(function(e) {
+            $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
                 socket.emit("MessageSend",username, $("#msg").val()) //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
@@ -162,6 +170,14 @@
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
               node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content">'+msg+'</div> </div> </div>');
+            });
+
+            socket.on('ImageSend', function(name,img){
+              element = document.getElementById('test');
+				      element.scrollTop = element.scrollHeight;
+              var node = document.getElementById(defaultId+'0');
+              console.log(defaultId);
+              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content"> <img src="'+img+'" style="max-width: 500px;"/></div> </div> </div>');
             });
         });
     </script>
