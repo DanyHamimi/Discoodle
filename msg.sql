@@ -26,9 +26,10 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `img`
 --
-/* Windows 
+/* Windows OLD SQL use insted of new sql caching_sha2_password this is the reason why it not connected
 create database nodelogin;
 use nodelogin
+ALTER USER 'nodelogin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 */
 
 DROP TABLE IF EXISTS `img`;
