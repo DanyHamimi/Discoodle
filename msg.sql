@@ -26,6 +26,10 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `img`
 --
+/* Windows 
+create database nodelogin;
+use nodelogin
+*/
 
 DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
