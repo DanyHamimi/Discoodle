@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'>
     <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
-    <script src='/socket.io/socket.io.js'></script>
     <script src='scripts/script.js'></script>
 </head>
 <body>
@@ -49,7 +48,7 @@
         <div class="nav-wrapper">
           <form>
             <div class="input-field"> 
-              <input id="search" type="search" required="" style="padding-left: 105px;">
+              <input id="search" type="search" required"" style="padding-left: 105px;"">
               <label class="label-icon" for="search"><i class="material-icons">Rechercher</i></label>
               <i class="material-icons">Fermer</i>
             </div>
@@ -71,23 +70,21 @@
 
 </html>
 <script>
-  $(function (){
-    var socket = io();
-    socket.emit('articleload');
-    socket.on('articleload',(articles) =>{
-      for(i = 0; i<articles.length;i++){
-        if(articles[i].type == 1){
-          var node = document.getElementById('important');
-          node.insertAdjacentHTML('beforeend', '<div class="card-panel grey lighten-5 z-depth-1"> <div class="row"> <div class="col s2"> <img src="https://materializecss.com/images/yuna.jpg" alt="" class="circle responsive-img"> </div> <span id="card-notif" class="card-title">'+articles[i].auteur+'</span><hr/> <div class="col s10"> <span class="black-text"> '+articles[i].contenu+' </span> </div> </div> </div>');
-        }
-        else{
-          var node = document.getElementById('news');
-          node.insertAdjacentHTML('beforeend','<div class="card grey lighten-5 z-depth-1"> <div class="card-content black-text"> <span class="card-title" id="card-ano">INFORMATIONS:</span><span class="card-title" id="card-sub">25/03/2021</span><hr/> <p>'+articles[i].contenu+'</p> </div> </div> </div>');
-        }
-      }
-      console.log(articles);
-    })
+  var connection = mysql.createConnection({
+	host     : 'localhost',
+	user     : 'root',
+	password : '',
+	database : 'discoodle'
+  });
 
+  var query = 'SELECT * FROM articles WHERE type = 0';
 
-  })
+  connection.connect();
+
+  connection.query(query, function(err, rows, fields) {
+    if (err) throw err;
+
+    console.log(rows) // log all matching rows.
+});
+  
 </script>

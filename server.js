@@ -110,16 +110,6 @@ io.on('connection', (socket) => {
         io.emit('user-joined', userId);
     });
 
-    socket.on('articleload', ()=>{
-        console.log('test articles');
-        connection.query('SELECT * FROM articles', function(error, results, fields){
-			if (results.length > 0) {
-				io.emit('articleload',results);
-			}
-        })
-    });
-
-
 });
 
 
