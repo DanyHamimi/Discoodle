@@ -1,12 +1,23 @@
 var express = require('express');
+var http = require('http');
+var https = require('https');
 var app = express();
+const fs = require('fs')
 const multer = require("multer");
 const bodyParser = require('body-parser');
-const server = require('http').createServer(app);
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/chain.pem', 'utf8');
+const credit = {
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+};
+const server = require('https').createServer(credit,app);
 const io = require('socket.io')(server, {'pingTimeout': 180000, 'pingInterval': 25000});
 const port = process.env.PORT || 5000;
 const path = require('path');
-const fs = require('fs');
+
 
 var mysql = require('mysql');
 
@@ -179,6 +190,6 @@ app.post(
 
 server.listen(port, () =>{
     console.log(`Ca demarre sur le port ${port}`)
-    console.log(`http://discoo.dog:${port}/`)
+    console.log(`https://discoo.dog:${port}/`)
 });
 
