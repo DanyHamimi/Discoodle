@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Projet de jeunes",
   "main": "index.js",
-  "author": "DanyRayaneRayan",
+  "author": "DanyRayaneRayanBaptiste",
   "dependencies": {
     "express": "^4.17.1",
     "express-session": "^1.17.1",

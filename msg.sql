@@ -26,6 +26,11 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `img`
 --
+/* Windows OLD SQL use insted of new sql caching_sha2_password this is the reason why it not connected
+create database nodelogin;
+use nodelogin
+ALTER USER 'nodelogin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+*/
 
 DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
@@ -37,6 +42,15 @@ CREATE TABLE IF NOT EXISTS `img` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 COMMIT;
+
+CREATE TABLE IF NOT EXISTS `message_log` (
+  `username` varchar(50) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

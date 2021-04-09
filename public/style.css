@@ -224,6 +224,10 @@ html { overflow-y: hidden; }
   color: white;
   font-weight: bold;
 }
+.discord-mockup .messages-panel .messages-group .messages .message .body .hour {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: bold;
+}
 .discord-mockup .messages-panel .messages-group .messages .message .body p, .discord-mockup .messages-panel .messages-group .messages .message .body .content {
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
@@ -270,18 +274,15 @@ html { overflow-y: hidden; }
 }
 
 .discord-mockup .messages-panel .msg-form{
-  height: 50px;
+  height: 20px;
   width: 100%;
- 
-
 }
 
 .discord-mockup .messages-panel .msg-input{
   height: auto;
   width: 100%;
   position: fixed;
-  top: 84%;
-  margin-top: 20px;
+  top: 85%;
 }
 
 .discord-mockup .messages-panel .test{
@@ -298,7 +299,7 @@ html { overflow-y: hidden; }
   height: 100%;
   border: none;
   color: white;
-  padding: 0px 20px; 
+  padding: 0px 50px; 
   border-radius: 10px;
 
 }
@@ -312,4 +313,25 @@ html { overflow-y: hidden; }
   border: none;
   border-radius: 10px;
 
+}
+
+input[type="file"] {
+  display: none;
+}
+
+
+
+.custom-file-upload {
+  position: relative;
+  z-index: 3;
+  color:black;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  margin-left: 35px;
+  bottom: -35px;
 }
