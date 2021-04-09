@@ -12,9 +12,9 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
 	host     : 'localhost',
-	user     : 'newuser',
-	password : 'password',
-	database : 'nodelogin'
+	user     : 'root',
+	password : '',
+	database : 'discoodle'
 });
 
 connection.connect(function(err) {
@@ -51,6 +51,21 @@ app.get('/', (req,res) => {
 app.post('/index.html', function (req, res) {
     res.redirect(`/index.html?name=${req.body.name}`)
     console.log(`Full name is:${req.body.name} .`);
+})
+
+app.post('/writeArticle.html', function (req, res) {
+    var p1 = req.param("fradio");
+    console.log(p1);
+    var p2 = req.param("text");
+    console.log(p2);
+    var p3 = req.param("articletext");
+    console.log(p3);
+    var sql = "INSERT INTO articles (nom, contenu,auteur,type) VALUES ('"+p2+"','"+p3+"','Default','"+p1+"')";
+    connection.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+    res.redirect("/home.html");
 })
 
 app.get('/messages', function (req, res) {
@@ -104,6 +119,15 @@ io.on('connection', (socket) => {
     socket.on('join-room', (userId) => { //Système de room pour le WebRTC - userId est l'ID peer unique de l'utilsateur
         console.log(userId)
         io.emit('user-joined', userId);
+    });
+    
+    socket.on('articleload', ()=>{
+        console.log('test articles');
+        connection.query('SELECT * FROM articles', function(error, results, fields){
+			if (results.length > 0) {
+				io.emit('articleload',results);
+			}
+        })
     });
 
 });
