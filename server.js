@@ -14,7 +14,8 @@ var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : '',
-	database : 'discoodle'
+	database : 'discoodle',
+    charset : 'utf8mb4',
 });
 
 connection.connect(function(err) {
@@ -79,6 +80,7 @@ app.get('/messages', function (req, res) {
 });
 
 
+
 io.on('connection', (socket) => {
 
     socket.on('user-created', name => {
@@ -104,7 +106,7 @@ io.on('connection', (socket) => {
         if ( name && name.length>0 && name !=null){
             var heure =new Date();
             io.emit('MessageSend',name,msg,heure.getHours()+':'+ heure.getMinutes()+':'+ heure.getSeconds());
-            connection.query('INSERT INTO message_log (username, message, id, date) VALUES (?, ?, ?, ?)', [ name, msg, socket.id, new Date() ], function(error, results, fields){
+            connection.query('INSERT INTO message_log (username, message, id, date) VALUES (?, ?, ?, ?)', [ name, msg.replace(/\\|\//g,''), socket.id, new Date() ], function(error, results, fields){
                     if(error) throw error;
             });     
         }
