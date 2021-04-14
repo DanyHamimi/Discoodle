@@ -106,7 +106,7 @@ io.on('connection', (socket) => {
         if ( name && name.length>0 && name !=null){
             var heure =new Date();
             io.emit('MessageSend',name,msg,heure.getHours()+':'+ heure.getMinutes()+':'+ heure.getSeconds());
-            connection.query('INSERT INTO message_log (username, message, id, date) VALUES (?, ?, ?, ?)', [ name, msg.replace(/\\|\//g,''), socket.id, new Date() ], function(error, results, fields){
+            connection.query('INSERT INTO message_log (username, message, id, date) VALUES (?, ?, ?, ?)', [ name, msg, socket.id, new Date() ], function(error, results, fields){
                     if(error) throw error;
             });     
         }
