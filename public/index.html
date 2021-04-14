@@ -87,7 +87,7 @@
                       </div>
                     </div>
                   </div>
-
+                  
 
                   <!-- WebRTC Integration - Sur clic du bouton-->
                   <div class="messages-group hide-unless-show" id="Video">
@@ -104,6 +104,8 @@
                 </div>
                 <div class="msg-input">
                   <form id= "msgform" action="" class="msg-form">
+                    <a id="smiley" title="smiley" href="#" onclick="enableEmo(this, event)" >&#128515;</a>
+                    <a id="feu" title="feu" href="#" onclick="enableEmo(this, event)" >&#128293;</a>
                     <input id = "msg" autocomplete="off" class="msg-input"/>
                   </form>
                   <form method="post" enctype="multipart/form-data" action="/upload">
@@ -140,6 +142,10 @@
           a++;
           var res = String.fromCharCode(a);
           document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add">' + res + '</button>');
+        }
+
+        function enableEmo(elem) {
+          document.querySelector('#msg').value += elem.textContent;
         }
 
         $(function (){

@@ -14,7 +14,8 @@ var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : '',
-	database : 'discoodle'
+	database : 'discoodle',
+    charset : 'utf8mb4',
 });
 
 connection.connect(function(err) {
@@ -77,6 +78,7 @@ app.get('/messages', function (req, res) {
         }
     });
 });
+
 
 
 io.on('connection', (socket) => {
