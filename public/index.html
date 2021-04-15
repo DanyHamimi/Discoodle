@@ -115,6 +115,7 @@
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script><script  src="./script.js"></script><script  src="./video.js"></script>
     <script>
+      
       var a = 69;
         function get(name){
             var url = window.location.search;
@@ -138,10 +139,7 @@
         $(function (){
             var socket = io();
             const def = "Utilisateur"
-            const name = prompt('Entrer votre nom:',def);
-            while(name.length == 0 ){
-                name = prompt('Entrer votre nom:');
-            }
+            const name = "toto"
             socket.emit('user-created',name);
            
         
