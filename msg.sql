@@ -35,6 +35,7 @@ ALTER USER 'nodelogin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pas
 CREATE DATABASE IF NOT EXISTS discoodle;
 CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY '';
 use discoodle;
+
 DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -48,10 +49,10 @@ COMMIT;
 
 CREATE TABLE IF NOT EXISTS `message_log` (
   `username` varchar(50) NOT NULL,
-  `message` varchar(255) NOT NULL,
+  `message` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `id` varchar(255) NOT NULL,
   `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+)  ENGINE=InnoDB AUTO_INCREMENT=2;
 
 
 
