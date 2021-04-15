@@ -78,7 +78,7 @@ app.post('/writeArticle.html', function (req, res) {
     console.log(p2);
     var p3 = req.param("articletext");
     console.log(p3);
-    var sql = "INSERT INTO articles (nom, contenu,auteur,type) VALUES ('"+p2+"','"+p3+"','Default','"+p1+"')";
+    var sql = "INSERT INTO articles (nom, contenu,auteur,type) VALUES ('"+p2+"','"+p3+"','"+req.session.username+"','"+p1+"')";
     connection.query(sql, function (err, result) {
       if (err) throw err;
       console.log("1 record inserted");
@@ -277,4 +277,3 @@ server.listen(port, () =>{
     console.log(`Ca demarre sur le port ${port}`)
     console.log(`http://discoo.dog:${port}/`)
 });
-
