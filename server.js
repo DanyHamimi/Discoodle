@@ -19,6 +19,7 @@ var session = require('express-session')({
     saveUninitialized: true
   });
 var sharedsession = require("express-socket.io-session");
+const { emit } = require('process');
 
 
 app.use(session);
@@ -114,12 +115,12 @@ app.post('/auth', function(request, response) {
                         });
                         t.then((pswRes)=>{
                             if (pswRes==true){
+                                io.emit("logged", request.body.username);
                                 request.session.loggedin = true;
                                 request.session.username = username;
                                 console.log(request.session.username);
-                                //console.log(t);  
+                                //console.log(t); 
                                 return response.redirect('/home.html');
-                                
                                 }else{
                                 return response.redirect('/log.html');
                                 }
@@ -226,6 +227,21 @@ io.on('connection', (socket) => {
         })
     });
 
+    //Requêtes BDD
+
+    socket.on('sql-select', function(req, res) {
+        connection.query(req, function(error, results, fields) {
+            if(results > 0) res(results);
+            else console.log('No results... yet !');
+        })
+    });
+
+    socket.on('sql-update', function(req, res) {
+        connection.query(req, function(error, results, fields) {
+            if(!error) console.log("SUCESS");
+        })
+    });
+
 });
 
 //File upload
@@ -237,7 +253,7 @@ const errHandler = (err, res) => { //Si on réussit pas a upload
       .end("Erreur fatale!");
   };
 
-
+//Upload chat
 app.post(
     "/upload",
     upload.single("file"),
@@ -252,10 +268,44 @@ app.post(
           if (err) return errHandler(err, res);
           io.emit("ImageSend", req.body.uname, a.slice(9));
           //TODO: PAGE LOADS INFINITELY.
-          /*res
+          res
             .status(200)
             .contentType("text/plain")
-            .redirect();*/
+            .redirect("/");
+            
+        });
+      } else {
+        fs.unlink(original, err => {
+          if (err) return errHandler(err, res);
+  
+          res
+            .status(403)
+            .contentType("text/plain")
+            .end("Ce n'est pas une image");
+        });
+      }
+    }
+  );
+
+
+  app.post(
+    "/upload-pp",
+    upload.single("file"),
+    (req, res) => {
+      const original = req.file.path;
+      var a = "./public/img/" + getRandomInt(10000000) + path.extname(req.file.originalname).toLowerCase();
+      const target = path.join(__dirname, a);
+  
+      //jpg, png, jpeg acceptés uniquement.
+      if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg" || path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
+        fs.rename(original, target, err => {
+          if (err) return errHandler(err, res);
+          io.emit("PPUpdated", original);
+          //TODO: PAGE LOADS INFINITELY.
+          res
+            .status(200)
+            .contentType("text/plain")
+            .redirect("/profile.html");
             
         });
       } else {
