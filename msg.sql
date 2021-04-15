@@ -34,7 +34,7 @@ ALTER USER 'nodelogin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pas
 
 CREATE DATABASE IF NOT EXISTS discoodle;
 CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY '';
-
+use discoodle;
 DROP TABLE IF EXISTS `img`;
 CREATE TABLE IF NOT EXISTS `img` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
