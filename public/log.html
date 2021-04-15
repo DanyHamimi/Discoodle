@@ -1,25 +1,18 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Discoodog</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src='/socket.io/socket.io.js'></script>
-    <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
-
-</head>
-<body style="background-color: #2c2f33;">
-    <div class="content-box"></div>
-    <div id="login"></div>
-    <form method="POST" action="index.html">
-        <input type="text" name="name" id="name">
-        <input type="submit" name="submitButton" id="submitButton">
-    </form>
-    <script>
-        $(function (){
-        });
-    </script>
-    
-</body>
+	<head>
+		<meta charset="utf-8">
+		<title>Login Form Tutorial</title>
+		<link rel="stylesheet" href="log.css">
+	</head>
+	<body>
+		<div class="login-form">
+			<h1>Login Form</h1>
+			<form action="auth" method="POST">
+				<input type="text" name="username" placeholder="Username" required>
+				<input type="password" name="password" placeholder="Password" required>
+				<input type="submit">
+				<p><a href="/register.html" class="regtext">Pas encore inscrit ? Vous pour le faire ici</a></p>
+			</form>
+		</div>
+	</body>
 </html>

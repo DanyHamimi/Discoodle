@@ -54,6 +54,13 @@ CREATE TABLE IF NOT EXISTS `message_log` (
   `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )  ENGINE=InnoDB AUTO_INCREMENT=2;
 
+CREATE TABLE IF NOT EXISTS `accounts` (
+   `id` varchar(255) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255),
+  `email` varchar(255)
+)ENGINE=InnoDB AUTO_INCREMENT=2;
+
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

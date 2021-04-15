@@ -150,11 +150,8 @@
 
         $(function (){
             var socket = io();
-            const def = "Utilisateur"
-            const name = prompt('Entrer votre nom:',def);
-            while(name.length == 0 ){
-                name = prompt('Entrer votre nom:');
-            }
+            const def = "Utilisateur";
+            const name = "test";
             socket.emit('user-created',name);
             document.getElementById("uname").setAttribute('value',name);
            
