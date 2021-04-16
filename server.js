@@ -64,6 +64,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req,res) => {
     res.sendFile(`${__dirname}/public/index.html`)
+    if(request.session.loggedin != 1){
+        request.session.loggedin = 0;
+    }
 })
 
 app.post('/index.html', function (req, res) {
@@ -114,7 +117,7 @@ app.post('/auth', function(request, response) {
                         });
                         t.then((pswRes)=>{
                             if (pswRes==true){
-                                request.session.loggedin = true;
+                                request.session.loggedin = 1;
                                 request.session.username = username;
                                 console.log(request.session.username);
                                 //console.log(t);  
@@ -225,6 +228,13 @@ io.on('connection', (socket) => {
 			}
         })
     });
+
+    socket.on('checklog',()=>{
+        console.log(session.loggedin);
+        if(session.loggedin != 1){
+            io.emit('checklog');
+        }
+    })
 
 });
 

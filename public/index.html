@@ -66,25 +66,11 @@
                   <div class="messages-group hide-unless-show" id="ea4">
                     <div class="header">ea4</div>
                     <div class="messages" id = "ea40">
-                      <div class="message">
-                        <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
-                        <div class="body">
-                          <div class="user-name">Gnar</div>
-                          <div class="content">I'm lonely.</div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <div class="messages-group hide-unless-show" id="Stats">
                     <div class="header">Stats</div>
                     <div class="messages">
-                      <div class="message"  id = "Stats0">
-                        <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
-                        <div class="body">
-                          <div class="user-name">Gnar</div>
-                          <div class="content">Non-embedded message.</div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   
@@ -153,6 +139,11 @@
             const def = "Utilisateur";
             const name = "test";
             socket.emit('user-created',name);
+            socket.emit('checklog');
+            socket.on('checklog',()=>{
+              console.log('FAIT');
+              window.location.href = "log.html"
+            })
             document.getElementById("uname").setAttribute('value',name);
            
         
