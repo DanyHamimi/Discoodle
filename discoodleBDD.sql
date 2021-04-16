@@ -22,6 +22,11 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+CREATE DATABASE IF NOT EXISTS discoodle;
+CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY '';
+use discoodle;
+
+
 
 --
 -- Structure de la table `accounts`
@@ -110,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `message_log` (
   `id` varchar(255) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `channel` varchar(5000) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `message_log`
