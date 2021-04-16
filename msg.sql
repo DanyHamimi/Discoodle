@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `message_log` (
 )  ENGINE=InnoDB AUTO_INCREMENT=2;
 
 CREATE TABLE IF NOT EXISTS `accounts` (
-   `id` varchar(255) NOT NULL,
+  `id` int(255) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(255),
   `email` varchar(255)
