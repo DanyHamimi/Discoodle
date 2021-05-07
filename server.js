@@ -157,8 +157,8 @@ app.post('/reg', function(request, response) {
             }else if(password==passwordBis){
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(password, salt, function(err, hash) {
-                        var sql = "INSERT INTO accounts (username,password,email) VALUES (?,?,?)";
-                        var todo = [username, hash,email];
+                        var sql = "INSERT INTO accounts (username,password,email,class) VALUES (?,?,?,?)";
+                        var todo = [username, hash,email,0];
                         connection.query(sql, todo, (err, results, fields) => {
                           if (err) {
                             return console.error(err.message);
