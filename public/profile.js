@@ -1,6 +1,4 @@
 const socket = io("ws://localhost:5000");
-getUID();
-
 
 function loadForm() {
     document.getElementById('buttonid').addEventListener('click', openDialog);
@@ -14,54 +12,56 @@ function loadForm() {
 }
 
 
-function confirmDelete() {
+async function confirmDelete() {
     /*if(confirm("Voulez vous vraiment supprimer votre compte ?")) {
         //socket.emit("del-acc", uid);
         
         alert("Hello");
     }*/
-}
-
-function getUID() {
-    let t = new Promise(function(resolve, reject) {
-        socket.emit("logged-in", "a", (response) => {
-            if(response != null) resolve(response);
-        })
-        setTimeout(() => {}, 5000);
-    });
-    t.then((res)=>{
-        sessionStorage.setItem("uid", res);
-        console.log(res);
-    }).catch(()=>{
-
-    });
+    console.log(await getProfilePictureUrl());
 }
 
 function getProfilePictureUrl() {
-
-    /*let t = new Promise(function(resolve, reject) {
-        socket.emit("sql-select", `SELECT 'profile_picture' FROM 'accounts' WHERE 'username' = ${uid}`, (response) => {
-            resolve(response);
+    return new Promise(function(resolve, reject) {
+        var a = "SELECT profile_picture FROM accounts WHERE id = " + getCookie("uid");
+        socket.emit("sql-select", a, (response) => {
+            resolve(response[0].profile_picture);
         })
-        setTimeout(() => {}, 500);
     });
-    t.then((res)=>{
-        console.log("res");
-        return res;
-    }).catch(()=>{
+}
 
-    });*/
-    var a = "SELECT profile_picture FROM accounts WHERE id = " + sessionStorage.getItem("uid");
-    console.log(a);
-    socket.emit("sql-select", a, (response) => {
-        return response[0].profile_picture;
-    })
-   
+function getUsername() {
+    return new Promise(function(resolve, reject) {
+        var a = "SELECT username FROM accounts WHERE id = " + getCookie("uid");
+        socket.emit("sql-select", a, (response) => {
+            resolve(response[0].username);
+        })
+    });
 }
 
 function setProfilePictureUrl(url) {
-    var a = "UPDATE accounts SET profile_picture = " + url + " WHERE id = " + sessionStorage.getItem("uid");
+    var a = "UPDATE accounts SET profile_picture = " + url + " WHERE id = " + getCookie("uid");
     socket.emit("sql-update", a, (response) => {
         console.log("Done");
-    })
+    });
+}
+
+function getCookie(name) {
+    // Split cookie string and get all individual name=value pairs in an array
+    var cookieArr = document.cookie.split(";");
+    
+    // Loop through the array elements
+    for(var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+        
+        /* Removing whitespace at the beginning of the cookie name
+        and compare it with the given string */
+        if(name == cookiePair[0].trim()) {
+            // Decode the cookie value and return
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    
+    // Return null if not found
+    return null;
 }

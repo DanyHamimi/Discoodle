@@ -14,7 +14,7 @@
 
 </head>
 
-<body onload="loadForm()">
+<body onload="loadForm(); updateInfo();">
     <div class="container">
         <div class="main-body">
         
@@ -33,7 +33,7 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150" id="imageid">
                         <div class="mt-3">
                           <h4>Rayan Al Azawi</h4>
                           <p class="text-secondary mb-1">L2 Info</p>
@@ -80,7 +80,7 @@
                           <h6 class="mb-0">Nom complet</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          Rayan Al Azawi
+                          <p id="username">Rayan Al Azawi</p>
                         </div>
                       </div>
                       <hr>
@@ -183,13 +183,11 @@
         </div>
 
 <script>
-  $(function (){
-      var socket = io();
-      socket.on("PPUpdated", (url) => {
-      console.log(url);
-      setProfilePictureUrl(url);
-      })
-  })
+async function updateInfo() {
+  
+  document.getElementById("imageid").src=await getProfilePictureUrl();
+  document.getElementById('username').innerHTML = await getUsername();
+}
 </script>
 </body>
 </html>

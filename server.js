@@ -10,6 +10,7 @@ const fs = require('fs');
 const bcrypt = require('bcrypt');
 const util = require('util');
 const { PassThrough } = require('stream');
+var cookieParser = require("cookie-parser");
 
 var mysql = require('mysql');
 
@@ -23,6 +24,7 @@ const { emit } = require('process');
 
 
 app.use(session);
+app.use(cookieParser());
 
 io.use(sharedsession(session));
 
@@ -120,6 +122,8 @@ app.post('/auth', function(request, response) {
                                 request.session.username = username;
                                 console.log(request.session.username);
                                 //console.log(t); 
+                                a = results[0].id;
+                                response.cookie("uid", a);
                                 return response.redirect('/home.html');
                                 }else{
                                 return response.redirect('/log.html');
@@ -230,8 +234,9 @@ io.on('connection', (socket) => {
     //Requêtes BDD
 
     socket.on('sql-select', function(req, res) {
+        console.log(req);
         connection.query(req, function(error, results, fields) {
-            if(results > 0) res(results);
+            if(results.length > 0) res(results);
             else console.log('No results... yet !');
         })
     });
@@ -293,6 +298,7 @@ app.post(
     upload.single("file"),
     (req, res) => {
       const original = req.file.path;
+      var username = session.username;
       var a = "./public/img/" + getRandomInt(10000000) + path.extname(req.file.originalname).toLowerCase();
       const target = path.join(__dirname, a);
   
@@ -300,7 +306,11 @@ app.post(
       if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg" || path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
         fs.rename(original, target, err => {
           if (err) return errHandler(err, res);
-          io.emit("PPUpdated", original);
+          var tempo = "." + a.slice(8);
+          console.log('UPDATE accounts SET profile_picture = ' + "." + a.slice(8) + ' WHERE id = '+ req.cookies.uid);
+          connection.query('UPDATE accounts SET profile_picture = ? WHERE id = ?', [tempo, req.cookies.uid], function(error, results) {
+             if (error) throw error;
+          });
           //TODO: PAGE LOADS INFINITELY.
           res
             .status(200)
