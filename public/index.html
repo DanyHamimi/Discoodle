@@ -37,25 +37,50 @@
                 <div class="items">
                   <div class="item">
                     <div id="item">
-                      <button class="guild-add">A</button>
-                      <button class="guild-add">B</button>
-                      <button class="guild-add">C</button>
-                      <button class="guild-add">D</button>
-                      <button class="guild-add">E</button>
+                      <button class="guild-add" id="btn" onclick='display("OL")'>OL</button>
+                      <button class="guild-add" onclick='display("C")'>C</button>
+                      <button class="guild-add" onclick='display("EA")'>EA</button>
+                      <button class="guild-add" onclick='display("M")'>M</button>
                     </div>  
                     <button class="guild-add" onclick="addChan()">+</button>
                   </div>
                 </div>
               </div>
+          
               <div class="sidebar-panel hide-on-med-and-down">
                 <div class="header">Projet de Programmation</div>
-                <div class="items"><a href="#">
+                <div class="items" style="display:none" id="OL"><a href="#">
                     <div class="item trigger-group" data="Progra">Programmation</div>
                     <div class="item trigger-group" data="ea4">EA4</div>
                     <div class="item trigger-group" data="Stats">Stats</div>
                     <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
+                <div class="items" style="display:none" id="C"><a href="#">
+                  <div class="item trigger-group" data="Progra">Programmation</div>
+                  <div class="item trigger-group" data="Cours1" >Cours C1</div>
+                  <div class="item trigger-group" data="Cours2">Cours C2</div>
+                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
+                </a></div>
+                <div class="items" style="display:none" id="M"><a href="#">
+                  <div class="item trigger-group" data="Progra">Programmation</div>
+                  <div class="item trigger-group" data="Cours M1">Cours M1</div>
+                  <div class="item trigger-group" data="Cours M2">Cours M2</div>
+                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
+                </a></div>
+                <div class="items" style="display:none" id="C"><a href="#">
+                  <div class="item trigger-group" data="Progra">Programmation</div>
+                  <div class="item trigger-group" data="Cours C1">Cours C1</div>
+                  <div class="item trigger-group" data="Cours C2">Cours C2</div>
+                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
+                </a></div>
+                <div class="items" style="display:none" id="EA"><a href="#">
+                  <div class="item trigger-group" data="Progra">Programmation</div>
+                  <div class="item trigger-group" data="Cours EA1">Cours EA1</div>
+                  <div class="item trigger-group" data="Cours EA2">Cours EA2</div>
+                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
+                </a></div>
               </div>
+               
               <div class="messages-panel" id="messages-panel">
                 <div class="test" id="test">
                   <div class="messages-group hide-unless-show" id="Progra">
@@ -71,8 +96,10 @@
                   <div class="messages-group hide-unless-show" id="Stats">
                     <div class="header">Stats</div>
                     <div class="messages">
-                    </div>
-                  </div>
+                  </div>                
+                </div>
+                
+               
                   
 
                   <!-- WebRTC Integration - Sur clic du bouton-->
@@ -103,6 +130,7 @@
                   </form>
                 </div>
               </div>
+             
             </div>
             
           </div>
@@ -134,6 +162,42 @@
           document.querySelector('#msg').value += elem.textContent;
         }
 
+        function display(elemt) {
+          var x = document.getElementById(elemt);
+          var ea = document.getElementById("EA");
+          var ol = document.getElementById("OL");
+          var c = document.getElementById("C");
+          var m = document.getElementById("M");
+          
+          if (x.style.display === "none") {
+            if(x === ea){
+              ol.style.display = "none";
+              c.style.display = "none";
+              m.style.display = "none";  
+            }
+            if(x === ol){
+              ea.style.display = "none";
+              c.style.display = "none";
+              m.style.display = "none";  
+            }
+            if(x === m){
+              ea.style.display = "none";
+              c.style.display = "none";
+              ol.style.display = "none";  
+            }
+            if(x === c){
+              ea.style.display = "none";
+              ol.style.display = "none";
+              m.style.display = "none";  
+            }
+            x.style.display = "block";            
+          } else {
+            x.style.display = "none";
+          }
+        } 
+
+       
+
         $(function (){
             var socket = io();
             const def = "Utilisateur";
@@ -145,8 +209,16 @@
               window.location.href = "log.html"
             })
             document.getElementById("uname").setAttribute('value',name);
-           
-        
+
+            jQuery(document).ready(function() {
+    jQuery(".toggle").next(".hidden").hide();
+    jQuery(".toggle").click(function() {
+        $('.active').not(this).toggleClass('active').next('.hidden').slideToggle(300);
+        $(this).toggleClass('active').next().slideToggle("fast");
+
+    });
+});
+          
             var username = name;
             $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
@@ -161,6 +233,7 @@
             socket.on('MessageSend', function(name,msg,hour){
               element = document.getElementById('test');
 				      element.scrollTop = element.scrollHeight;
+
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
               node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
