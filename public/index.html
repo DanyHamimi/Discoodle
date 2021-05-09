@@ -37,42 +37,107 @@
                 <div class="items">
                   <div class="item">
                     <div id="item">
-                      <button class="guild-add">A</button>
-                      <button class="guild-add">B</button>
-                      <button class="guild-add">C</button>
-                      <button class="guild-add">D</button>
-                      <button class="guild-add">E</button>
+                      <button class="guild-add" id="btn" onclick='display("OL")'>OL</button>
+                      <button class="guild-add" onclick='display("C")'>C</button>
+                      <button class="guild-add" onclick='display("EA")'>EA</button>
+                      <button class="guild-add" onclick='display("M")'>M</button>
                     </div>  
                     <button class="guild-add" onclick="addChan()">+</button>
                   </div>
                 </div>
               </div>
+          
               <div class="sidebar-panel hide-on-med-and-down">
                 <div class="header">Projet de Programmation</div>
-                <div class="items"><a href="#">
+                <div class="items" style="display:none" id="OL"><a href="#">
                     <div class="item trigger-group" data="Progra">Programmation</div>
                     <div class="item trigger-group" data="ea4">EA4</div>
                     <div class="item trigger-group" data="Stats">Stats</div>
                     <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
+                <div class="items" style="display:none" id="M"><a href="#">
+                  <div class="item trigger-group" data="Progra">Programmation</div>
+                  <div class="item trigger-group" data="Cours M1">Cours M1</div>
+                  <div class="item trigger-group" data="Cours M2">Cours M2</div>
+                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
+                </a></div>
+                <div class="items" style="display:none" id="C"><a href="#">
+                  <div class="item trigger-group" data="Progra">Programmation</div>
+                  <div class="item trigger-group" data="Cours C1">Cours C1</div>
+                  <div class="item trigger-group" data="Cours C2">Cours C2</div>
+                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
+                </a></div>
+                <div class="items" style="display:none" id="EA"><a href="#">
+                  <div class="item trigger-group" data="Progra">Programmation</div>
+                  <div class="item trigger-group" data="Cours EA1">Cours EA1</div>
+                  <div class="item trigger-group" data="Cours EA2">Cours EA2</div>
+                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
+                </a></div>
               </div>
+               
               <div class="messages-panel" id="messages-panel">
                 <div class="test" id="test">
                   <div class="messages-group hide-unless-show" id="Progra">
                     <div class="header">Général</div>
                     <div class="messages" id = "Progra0">
+                      <script>
+                         
+                      </script>
                     </div>
                   </div>
                   <div class="messages-group hide-unless-show" id="ea4">
                     <div class="header">ea4</div>
                     <div class="messages" id = "ea40">
+                      <script>
+                       
+                    </script>
                     </div>
                   </div>
+                  <div class="messages-group hide-unless-show" id="Cours C1">
+                    <div class="header">Cours C1</div>
+                    <div class="messages" id = "Cours C10">
+                      <div class="message"><div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">Professeur</div><div class="hour"></div> <div class="content"><h1>Explications</h1></br>•L'exécution de programme commence toujours dans la fonction main:int main(void){    }</br>•main() doit retourner un entier, la valeur 0 indique terminaison correcte du programme, une valeur > 0 un terminaison incorrecte</br>•La fonction printf() est définie dans le fichier en-tête stdio.h  sert à faire afficher les valeurs d'expressions</br><h3>Compiler le programme C</h3>compiler un programme qui se trouve dans fichier hello.c sur un terminal :</br>gcc -Wall hello.c -o hello </br>gcc - le compilateur C</br>-Wall   une option de compilateur (obligatoire). Permet de voir tous les avertissements (warning).  Compilation avec des avertissements signifie que le programme est presque sûrement  incorrect (mais si la compilation réussie).Exécuter le programma compilé depuis le terminal :</br>./hello </div> </div> </div>
+                      
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours C2">
+                    <div class="header">Cours C2</div>
+                    <div class="messages" id = "Cours C20">
+                      <div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">Professeur</div><div class="hour"></div> <div class="content"><h1>préprocesseur -> compilation -> linkage</h1>Quand on lance  gcc il y a derrière trois programmes différents qui s'exécutent à tour de rôle : </br>1.Le préprocesseurs transforme le texte du programme en utilisant les directives de préprocesseur commençant par #. Le résultat c'est un fichier texte qui contient le texte de programme mais sans directives de preprocesseur.  </br>2.Le compilateur traduit  le texte du programme vers un code binaire  qui n'est pas encore exécutable. Il manque, par exemple, les fonctions de la bibliothèque standard, comme printf(). </br>3.Le linker rassemble les différentes parties du code binaire, ajoute les références vers les fonctions des bibliothèques. Le résultat est un code binaire  exécutable sur la machine.</div> </div> </div>
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours EA1">
+                    <div class="header">Cours EA1</div>
+                    <div class="messages" id = "Cours EA10">
+                      <div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">Professeur</div><div class="hour"></div> <div class="content"><h1>Thème du cours: Algorithmie</h1>algorithmique = « conception et analyse des algorithmes»</br>algorithme = « méthode (systématique) de résolution d’un problème » concept non limité à l’informatique – d’ailleurs, de nombreux algorithmesont été décrits bien avant l’invention des ordinateurs :</br>•des algorithmes de calcul(opérations arithmétiques, approximation deπ, de√2...)</br>•des constructions géométriques(milieu d’un segment, triangle équilatéral, droites parallèles,centre d’un cercle, pentagone régulier...)</br>•des recettes de cuisine</br>•des manuels de construction...</br>mais le concept a pris une importance particulière avec l’apparition demachines capables d’exécuter</br>fidèlement et rapidement une suite d’opérations prédéfinie</div> </div> </div>
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours EA2">
+                    <div class="header">Cours EA2</div>
+                    <div class="messages" id = "Cours EA20">
+                      <div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">Professeur</div><div class="hour"></div> <div class="content"><h1>Complexité de l’exponentiation binaire</h1>def puissance(a, n) :</br># version récursiveif n == 0 : return 1# une comparaison</br>tmp = puissance(a, n//2)# une division par 2, un appel récursif</br>carre = tmp * tmp# une multiplication</br>if n%2 == 0 : return carre# une comparaison modulo 2</br>else : return a * carre# une multiplication</div> </div> </div>
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours M1">
+                    <div class="header">Cours M1</div>
+                    <div class="messages" id = "Cours M10">
+                      <div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">Professeur</div><div class="hour"></div> <div class="content"><h1>1.  ARITHMÉTIQUE</h1>L’arithmétique est l’étude des nombres entiers. On note Z l’ensemble des entiers relatifs, et Nl’ensemble des entiers naturels, càd positifs ou nuls. Si a∈Z, on note|a|sa valeur absolue qui est donc dans N. <h3>1.1.Divisibilité</h3><h5>Définition 1.1</h5>Soient a,b∈Z. On dit que a divise b, ou que a est un diviseur de b, ou que b est un multiple de a, et on note a|b si il existe k ∈ Z tel que b=k×a</div> </div> </div>
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours M2">
+                    <div class="header">Cours M2</div>
+                    <div class="messages" id = "Cours M20">
+                      <div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">Professeur</div><div class="hour"></div> <div class="content"><h1>1.4.PGCD, PPCM.</h1><h5>Définition  1.12.</h5>Soient a,b∈Z non  nuls.  On  dit  que d∈Z est  un  diviseur commun de a etb si d|a et d|b. </br>On dit que m∈Z est un multiple commun de a et b si a|m et b|m.<h5> 1.13</h5>.Les diviseurs communs de 60 et 90 sont 1, 2, 3, 5, 6, 10, 15 et30.</br>-1 et 1 sont toujours des diviseurs communs de a et b, et le produit ab est toujoursun multiple commun de a et b.</br> L’ensemble des diviseurs et multiples communs dedeux entiers donnés n’est donc jamais vide.</br> Si c est un diviseur commun de a,b,alors|c| ≤ |a|et|c| ≤ |b|, l’ensemble des diviseurs communs est borné et donc fini, donc il en existe un plus grand.</br> De même, l’ensemble des multiples communspositif sest minoré, donc il en existe un plus petit.</div> </div> </div>
+                    </div>
+                  </div>
+
                   <div class="messages-group hide-unless-show" id="Stats">
                     <div class="header">Stats</div>
                     <div class="messages">
-                    </div>
-                  </div>
+                  </div>                
+                </div>
+                
+               
                   
 
                   <!-- WebRTC Integration - Sur clic du bouton-->
@@ -103,6 +168,7 @@
                   </form>
                 </div>
               </div>
+             
             </div>
             
           </div>
@@ -134,23 +200,66 @@
           document.querySelector('#msg').value += elem.textContent;
         }
 
+        function display(elemt) {
+          var x = document.getElementById(elemt);
+          var ea = document.getElementById("EA");
+          var ol = document.getElementById("OL");
+          var c = document.getElementById("C");
+          var m = document.getElementById("M");
+          
+          if (x.style.display === "none") {
+            if(x === ea){
+              ol.style.display = "none";
+              c.style.display = "none";
+              m.style.display = "none";  
+            }
+            if(x === ol){
+              ea.style.display = "none";
+              c.style.display = "none";
+              m.style.display = "none";  
+            }
+            if(x === m){
+              ea.style.display = "none";
+              c.style.display = "none";
+              ol.style.display = "none";  
+            }
+            if(x === c){
+              ea.style.display = "none";
+              ol.style.display = "none";
+              m.style.display = "none";  
+            }
+            x.style.display = "block";            
+          }
+        } 
+
+       
+
         $(function (){
             var socket = io();
             const def = "Utilisateur";
             const name = "test";
             socket.emit('user-created',name);
             socket.emit('checklog');
+            socket.emit('join-channel','Cours C20');
+            /*
+            socket.emit('join-channel','c');
+            socket.emit('join-channel','Cours C20');
+            socket.emit('join-channel','Cours M10');
+            socket.emit('join-channel','Cours M20');
+            socket.emit('join-channel','Cours EA10');
+            socket.emit('join-channel','Cours EA20');
+            */
+
             socket.on('checklog',()=>{
               console.log('FAIT');
               window.location.href = "log.html"
             })
-            document.getElementById("uname").setAttribute('value',name);
-           
-        
+            document.getElementById("uname").setAttribute('value',name);  
             var username = name;
             $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
-                socket.emit("MessageSend",username, $("#msg").val()) //Envoyer au socket la val de #msg
+                
+                socket.emit("MessageSend",username, $("#msg").val(),defaultId+0); //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
 
                 element = document.getElementById('test');
@@ -161,10 +270,21 @@
             socket.on('MessageSend', function(name,msg,hour){
               element = document.getElementById('test');
 				      element.scrollTop = element.scrollHeight;
+
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
               node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
 
+            });
+
+            socket.on('OldSend', function(name,msg,hour,channel){
+              element = document.getElementById('test');
+				      element.scrollTop = element.scrollHeight;
+
+              var node = document.getElementById(defaultId+'0');
+              console.log(defaultId);
+              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+             
             });
 
             socket.on('ImageSend', function(name,img){
