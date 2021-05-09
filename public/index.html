@@ -55,12 +55,6 @@
                     <div class="item trigger-group" data="Stats">Stats</div>
                     <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
-                <div class="items" style="display:none" id="C"><a href="#">
-                  <div class="item trigger-group" data="Progra">Programmation</div>
-                  <div class="item trigger-group" data="Cours1" >Cours C1</div>
-                  <div class="item trigger-group" data="Cours2">Cours C2</div>
-                  <div class="item trigger-group" data="Video">Appel Vidéo</div>
-                </a></div>
                 <div class="items" style="display:none" id="M"><a href="#">
                   <div class="item trigger-group" data="Progra">Programmation</div>
                   <div class="item trigger-group" data="Cours M1">Cours M1</div>
@@ -93,6 +87,37 @@
                     <div class="messages" id = "ea40">
                     </div>
                   </div>
+                  <div class="messages-group hide-unless-show" id="Cours C1">
+                    <div class="header">Cours C1</div>
+                    <div class="messages" id = "Cours C10">
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours C2">
+                    <div class="header">Cours C2</div>
+                    <div class="messages" id = "Cours C20">
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours EA1">
+                    <div class="header">Cours EA1</div>
+                    <div class="messages" id = "Cours EA10">
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours EA2">
+                    <div class="header">Cours EA2</div>
+                    <div class="messages" id = "Cours EA20">
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours M1">
+                    <div class="header">Cours M1</div>
+                    <div class="messages" id = "Cours M10">
+                    </div>
+                  </div>
+                  <div class="messages-group hide-unless-show" id="Cours M2">
+                    <div class="header">Cours M2</div>
+                    <div class="messages" id = "Cours M20">
+                    </div>
+                  </div>
+
                   <div class="messages-group hide-unless-show" id="Stats">
                     <div class="header">Stats</div>
                     <div class="messages">
@@ -208,17 +233,7 @@
               console.log('FAIT');
               window.location.href = "log.html"
             })
-            document.getElementById("uname").setAttribute('value',name);
-
-            jQuery(document).ready(function() {
-    jQuery(".toggle").next(".hidden").hide();
-    jQuery(".toggle").click(function() {
-        $('.active').not(this).toggleClass('active').next('.hidden').slideToggle(300);
-        $(this).toggleClass('active').next().slideToggle("fast");
-
-    });
-});
-          
+            document.getElementById("uname").setAttribute('value',name);  
             var username = name;
             $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
