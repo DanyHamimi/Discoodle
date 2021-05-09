@@ -104,7 +104,7 @@ app.post('/auth', function(request, response) {
 	var username = request.body.username
 	var password = request.body.password;
             if (username && password) {
-                connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, results, fields) {
+                connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
                     if (results.length > 0) {
                         let t = new Promise(function(resolve, reject) {
                             bcrypt.compare(password, results[0].password, function(err, res) {
@@ -152,14 +152,14 @@ app.post('/reg', function(request, response) {
     var passwordBis = request.body.passwordBis;
     var l = true;
 	if (username && password && email) {
-        connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, r, fields) {
+        connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, r, fields) {
             if(r.length>0){
                 response.send('Le pseudo est deja utilisé');
                 //return response.redirect('/register.html');
             }else if(password==passwordBis){
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(password, salt, function(err, hash) {
-                        var sql = "INSERT INTO accounts (username,password,email) VALUES (?,?,?)";
+                        var sql = "INSERT INTO users (username,password,email,class) VALUES (?,?,?,0)";
                         var todo = [username, hash,email];
                         connection.query(sql, todo, (err, results, fields) => {
                           if (err) {
