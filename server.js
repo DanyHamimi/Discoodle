@@ -108,7 +108,7 @@ app.post('/auth', function(request, response) {
 	var username = request.body.username
 	var password = request.body.password;
             if (username && password) {
-                connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, results, fields) {
+                connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
                     if (results.length > 0) {
                         let t = new Promise(function(resolve, reject) {
                             bcrypt.compare(password, results[0].password, function(err, res) {
@@ -121,11 +121,12 @@ app.post('/auth', function(request, response) {
                         });
                         t.then((pswRes)=>{
                             if (pswRes==true){
-                                request.session.loggedin = 1;
+                                io.emit("logged", request.body.username);
+                                request.session.loggedin = true;
                                 request.session.username = username;
                                 console.log(request.session.username);
                                 //console.log(t); 
-                                a = results[0].id;
+                                a = results[0].id_user;
                                 response.cookie("uid", a);
                                 return response.redirect('/home.html');
                                 }else{
@@ -155,15 +156,15 @@ app.post('/reg', function(request, response) {
     var passwordBis = request.body.passwordBis;
     var l = true;
 	if (username && password && email) {
-        connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, r, fields) {
+        connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, r, fields) {
             if(r.length>0){
                 response.send('Le pseudo est deja utilisé');
                 //return response.redirect('/register.html');
             }else if(password==passwordBis){
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(password, salt, function(err, hash) {
-                        var sql = "INSERT INTO accounts (username,password,email,class) VALUES (?,?,?,?)";
-                        var todo = [username, hash,email,0];
+                        var sql = "INSERT INTO users (username,password,email,class) VALUES (?,?,?,0)";
+                        var todo = [username, hash,email];
                         connection.query(sql, todo, (err, results, fields) => {
                           if (err) {
                             return console.error(err.message);
@@ -342,8 +343,8 @@ app.post(
         fs.rename(original, target, err => {
           if (err) return errHandler(err, res);
           var tempo = "." + a.slice(8);
-          console.log('UPDATE accounts SET profile_picture = ' + "." + a.slice(8) + ' WHERE id = '+ req.cookies.uid);
-          connection.query('UPDATE accounts SET profile_picture = ? WHERE id = ?', [tempo, req.cookies.uid], function(error, results) {
+          console.log('UPDATE accounts SET profile_picture = ' + "." + a.slice(8) + ' WHERE id_user = '+ req.cookies.uid);
+          connection.query('UPDATE users SET profile_picture = ? WHERE id_user = ?', [tempo, req.cookies.uid], function(error, results) {
              if (error) throw error;
           });
           //TODO: PAGE LOADS INFINITELY.
@@ -365,7 +366,6 @@ app.post(
       }
     }
   );
-
 
 
 server.listen(port, () =>{
