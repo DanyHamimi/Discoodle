@@ -247,13 +247,14 @@
 
             socket.emit('user-created',name);
             socket.emit('checklog');
-            socket.emit('join-channel','Progra0');
-            socket.emit('join-channel','Cours C10');
-            socket.emit('join-channel','Cours C20');
-            socket.emit('join-channel','Cours M10');
-            socket.emit('join-channel','Cours M20');
-            socket.emit('join-channel','Cours EA10');
-            socket.emit('join-channel','Cours EA20');
+            var idArray = [];
+            $('.messages').each(function () {
+              idArray.push(this.id);
+            });
+
+            for (const element of idArray) {
+                socket.emit('join-channel',element);
+            }
           
 
             socket.on('checklog',()=>{
