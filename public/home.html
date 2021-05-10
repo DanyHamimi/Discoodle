@@ -75,6 +75,11 @@
 
 </html>
 <script>
+  var socket = io();
+  socket.on("logged", username => {
+    console.log("Hey");
+    sessionStorage.setItem("username", username);
+  });
   sessionStorage.setItem('clé', true);
   var data = sessionStorage.getItem('clé');
   $(function (){

@@ -1,7 +1,9 @@
 //RTC INTEGRATION - Fonctionnel avec micro + caméra en temps réel.
 
 function initVid() {
+  if (!myPeer.id)
     const socket = io('/')
+    aaa
     const videoGrid = document.getElementById('video-grid')
     const myPeer = new Peer()
     const myVideo = document.createElement('video') //On crée un  canvas vidéo (qui contiendra l'audio et la vidéo)
@@ -10,7 +12,7 @@ function initVid() {
 
     //Ici on demande l'autorisation du navigateur pour prendre les flux audio/vidéo
     navigator.mediaDevices.getUserMedia({
-      video: false, //Désactiver ou activer le flux vidéo
+      video: true, //Désactiver ou activer le flux vidéo
       audio: true
     }).then(stream => {
       addVideoStream(myVideo, stream)

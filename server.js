@@ -10,6 +10,7 @@ const fs = require('fs');
 const bcrypt = require('bcrypt');
 const util = require('util');
 const { PassThrough } = require('stream');
+var cookieParser = require("cookie-parser");
 
 var mysql = require('mysql');
 
@@ -19,9 +20,11 @@ var session = require('express-session')({
     saveUninitialized: true
   });
 var sharedsession = require("express-socket.io-session");
+const { emit } = require('process');
 
 
 app.use(session);
+app.use(cookieParser());
 
 io.use(sharedsession(session));
 
@@ -121,9 +124,10 @@ app.post('/auth', function(request, response) {
                                 request.session.loggedin = 1;
                                 request.session.username = username;
                                 console.log(request.session.username);
-                                //console.log(t);  
+                                //console.log(t); 
+                                a = results[0].id;
+                                response.cookie("uid", a);
                                 return response.redirect('/home.html');
-                                
                                 }else{
                                 return response.redirect('/log.html');
                                 }
@@ -262,6 +266,21 @@ io.on('connection', (socket) => {
             io.emit('checklog');
         }
     })
+    //Requêtes BDD
+
+    socket.on('sql-select', function(req, res) {
+        console.log(req);
+        connection.query(req, function(error, results, fields) {
+            if(results.length > 0) res(results);
+            else console.log('No results... yet !');
+        })
+    });
+
+    socket.on('sql-update', function(req, res) {
+        connection.query(req, function(error, results, fields) {
+            if(!error) console.log("SUCESS");
+        })
+    });
 
 });
 
@@ -274,7 +293,7 @@ const errHandler = (err, res) => { //Si on réussit pas a upload
       .end("Erreur fatale!");
   };
 
-
+//Upload chat
 app.post(
     "/upload",
     upload.single("file"),
@@ -289,10 +308,49 @@ app.post(
           if (err) return errHandler(err, res);
           io.emit("ImageSend", req.body.uname, a.slice(9));
           //TODO: PAGE LOADS INFINITELY.
-          /*res
+          res
             .status(200)
             .contentType("text/plain")
-            .redirect();*/
+            .redirect("/");
+            
+        });
+      } else {
+        fs.unlink(original, err => {
+          if (err) return errHandler(err, res);
+  
+          res
+            .status(403)
+            .contentType("text/plain")
+            .end("Ce n'est pas une image");
+        });
+      }
+    }
+  );
+
+
+  app.post(
+    "/upload-pp",
+    upload.single("file"),
+    (req, res) => {
+      const original = req.file.path;
+      var username = session.username;
+      var a = "./public/img/" + getRandomInt(10000000) + path.extname(req.file.originalname).toLowerCase();
+      const target = path.join(__dirname, a);
+  
+      //jpg, png, jpeg acceptés uniquement.
+      if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg" || path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
+        fs.rename(original, target, err => {
+          if (err) return errHandler(err, res);
+          var tempo = "." + a.slice(8);
+          console.log('UPDATE accounts SET profile_picture = ' + "." + a.slice(8) + ' WHERE id = '+ req.cookies.uid);
+          connection.query('UPDATE accounts SET profile_picture = ? WHERE id = ?', [tempo, req.cookies.uid], function(error, results) {
+             if (error) throw error;
+          });
+          //TODO: PAGE LOADS INFINITELY.
+          res
+            .status(200)
+            .contentType("text/plain")
+            .redirect("/profile.html");
             
         });
       } else {

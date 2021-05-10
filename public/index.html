@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Discoodle</title>
+    <title>Discooddle</title>
     <link rel='stylesheet' href='https://codepen.io/tutsplus/pen/WROvdG.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'><link rel="stylesheet" href="./style.css">
@@ -134,11 +134,16 @@
                   <div class="messages-group hide-unless-show" id="Stats">
                     <div class="header">Stats</div>
                     <div class="messages">
-                  </div>                
-                </div>
-                
-               
-                  
+                      <div class="message"  id = "Stats0">
+                        <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div>
+                        <div class="body">
+                          <div class="user-name">Gnar</div>
+                          <div class="content">Non-embedded message.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
 
                   <!-- WebRTC Integration - Sur clic du bouton-->
                   <div class="messages-group hide-unless-show" id="Video">
@@ -155,15 +160,13 @@
                 </div>
                 <div class="msg-input">
                   <form id= "msgform" action="" class="msg-form">
-                    <a id="smiley" title="smiley" href="#" onclick="enableEmo(this, event)" >&#128515;</a>
-                    <a id="feu" title="feu" href="#" onclick="enableEmo(this, event)" >&#128293;</a>
                     <input id = "msg" autocomplete="off" class="msg-input"/>
                   </form>
                   <form method="post" enctype="multipart/form-data" action="/upload">
                     <label for="file-upload" class="custom-file-upload">
                        +
                   </label>
-                    <input id="file-upload" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="this.form.submit()"">
+                    <input id="file-upload" type="file" name="file" accept=".jpg, .jpeg, .png" onchange="this.form.submit()">
                     <input type="hidden" id="uname" value="rayan" name="uname">
                   </form>
                 </div>
@@ -235,9 +238,13 @@
        
 
         $(function (){
-            var socket = io();
+          var socket = io();
             const def = "Utilisateur";
             const name = "test";
+            socket.emit('user-created',name);
+            socket.emit('checklog');
+          
+
             socket.emit('user-created',name);
             socket.emit('checklog');
             socket.emit('join-channel','Progra0');
