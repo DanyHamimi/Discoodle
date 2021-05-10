@@ -182,39 +182,6 @@ app.post('/reg', function(request, response) {
 	}
 });
 
-app.post('/reg', function(request, response) {
-    var password = (request.body.password).toString();
-	var username = request.body.username;
-    var email = request.body.email;
-    var passwordBis = request.body.passwordBis;
-    var l = true;
-	if (username && password && email) {
-        connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, r, fields) {
-            if(r.length>0){
-                response.send('Le pseudo est deja utilisé');
-                //return response.redirect('/register.html');
-            }else if(password==passwordBis){
-                bcrypt.genSalt(10, function(err, salt) {
-                    bcrypt.hash(password, salt, function(err, hash) {
-                        var sql = "INSERT INTO users (username,password,email,class) VALUES (?,?,?,0)";
-                        var todo = [username, hash,email];
-                        connection.query(sql, todo, (err, results, fields) => {
-                          if (err) {
-                            return console.error(err.message);
-                         }
-                         response.redirect('/log.html');
-                         }); 
-                    });
-                });
-            }
-        });
-        
-	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	}
-});
-
 
 
 io.on('connection', (socket) => {
@@ -399,7 +366,6 @@ app.post(
       }
     }
   );
-
 
 
 server.listen(port, () =>{
