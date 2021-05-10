@@ -295,15 +295,18 @@ html { overflow-y: hidden; }
 
 .discord-mockup .messages-panel .msg-form .msg-input{
   position:absolute;
-  background-color: #242424;
+  background-color: #40444b;
   left: 20px;
-  width: 79.5%;
+  width: 65%;
   height: 100%;
   border: none;
   color: white;
-  padding: 0px 50px; 
+  padding: 0px 75px; 
   border-radius: 10px;
-
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .discord-mockup .messages-panel .msg-form .msg-button{
@@ -335,7 +338,7 @@ input[type="file"] {
   cursor: pointer;
   border-radius: 50%;
   margin-left: 35px;
-  bottom: -35px;
+  bottom: -55px;
 }
 
 
@@ -345,6 +348,7 @@ input[type="file"] {
   top: 0;
   bottom: 0;
   background-color: #242424;
+
 }
 
 .msg-input a{

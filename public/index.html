@@ -160,7 +160,7 @@
                 </div>
                 <div class="msg-input">
                   <form id= "msgform" action="" class="msg-form">
-                    <input id = "msg" autocomplete="off" class="msg-input"/>
+                    <input id = "msg" autocomplete="off" class="msg-input" placeholder="Écrivez votre message ici !"/>
                   </form>
                   <form method="post" enctype="multipart/form-data" action="/upload">
                     <label for="file-upload" class="custom-file-upload">
@@ -275,13 +275,11 @@
             });
          
             socket.on('MessageSend', function(name,msg,hour){
-              element = document.getElementById('test');
-				      element.scrollTop = element.scrollHeight;
-
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
               node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
-
+              element = document.getElementById('test');
+				      element.scrollTop = element.scrollHeight;
             });
 
             socket.on('OldSend', function(name,msg,hour,channel){
