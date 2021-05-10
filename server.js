@@ -180,6 +180,31 @@ app.post('/reg', function(request, response) {
 
 io.on('connection', (socket) => {
     var session = socket.handshake.session;
+
+    
+    
+
+    socket.on('join-channel', name => {
+        //connection.query('SELECT * FROM message_log', function(error, results, fields){
+		//	io.emit('MessageSend',results[0].username,results[1].message,results[2].date);
+            
+        //})
+        connection.connect(function(err) {
+            connection.query("SELECT username, message, date, channel FROM message_log  WHERE channel= ?",[name], function (err, results, fields) {
+              if (err) throw err;
+              results.forEach(function(key, index){
+                io.emit('OldSend',key.username,key.message,key.date,key.channel);
+              })
+            });
+          });
+    });
+
+    socket.on('OldSend',(name,msg,hour,channel) =>{
+        io.emit('OldSend',name,msg,hour,channel);
+    });
+
+    
+
     socket.on('user-created', name => {
         console.log('Utilisateur connecté');
         user[socket.id] = name;
@@ -192,18 +217,19 @@ io.on('connection', (socket) => {
         console.log(socket.rooms); // Set contient le socket ID
     });
 
-
-    socket.on('disconnect', () => {
-        console.log('Utilisateur déconnecté'),
-        // Quand le serveur crash ou redémarre user == null 
-        delete user[socket.id];
+    socket.on('disconnecting', () => {
+        io.emit('MessageSend', user[socket.id],"s'est déconnecté");
+        console.log(socket.rooms); // Set contient le socket ID
     });
 
-    socket.on('MessageSend',(name,msg,hour) =>{
-        if ( name && name.length>0 && name !=null){
+
+    
+
+    socket.on('MessageSend',(name,msg,channel) =>{
+        if ( name && name.length>0 && name !=null ){
             var heure =new Date();
             io.emit('MessageSend',session.username,msg,heure.getHours()+':'+ heure.getMinutes()+':'+ heure.getSeconds());
-            connection.query('INSERT INTO message_log (username, message, id, date) VALUES (?, ?, ?, ?)', [ session.username, msg, socket.id, new Date() ], function(error, results, fields){
+            connection.query('INSERT INTO message_log (username, message, id, date, channel) VALUES (?, ?, ?, ?, ?)', [ session.username, msg, socket.id, new Date(), channel ], function(error, results, fields){
                     if(error) throw error;
             });     
         }

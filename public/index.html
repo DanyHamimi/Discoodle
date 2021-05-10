@@ -80,17 +80,24 @@
                   <div class="messages-group hide-unless-show" id="Progra">
                     <div class="header">Général</div>
                     <div class="messages" id = "Progra0">
+                      <script>
+                         
+                      </script>
                     </div>
                   </div>
                   <div class="messages-group hide-unless-show" id="ea4">
                     <div class="header">ea4</div>
                     <div class="messages" id = "ea40">
+                      <script>
+                       
+                    </script>
                     </div>
                   </div>
                   <div class="messages-group hide-unless-show" id="Cours C1">
                     <div class="header">Cours C1</div>
                     <div class="messages" id = "Cours C10">
                       <div class="message"><div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">Professeur</div><div class="hour"></div> <div class="content"><h1>Explications</h1></br>•L'exécution de programme commence toujours dans la fonction main:int main(void){    }</br>•main() doit retourner un entier, la valeur 0 indique terminaison correcte du programme, une valeur > 0 un terminaison incorrecte</br>•La fonction printf() est définie dans le fichier en-tête stdio.h  sert à faire afficher les valeurs d'expressions</br><h3>Compiler le programme C</h3>compiler un programme qui se trouve dans fichier hello.c sur un terminal :</br>gcc -Wall hello.c -o hello </br>gcc - le compilateur C</br>-Wall   une option de compilateur (obligatoire). Permet de voir tous les avertissements (warning).  Compilation avec des avertissements signifie que le programme est presque sûrement  incorrect (mais si la compilation réussie).Exécuter le programma compilé depuis le terminal :</br>./hello </div> </div> </div>
+                      
                     </div>
                   </div>
                   <div class="messages-group hide-unless-show" id="Cours C2">
@@ -233,6 +240,15 @@
             const name = "test";
             socket.emit('user-created',name);
             socket.emit('checklog');
+            socket.emit('join-channel','Progra0');
+            socket.emit('join-channel','Cours C10');
+            socket.emit('join-channel','Cours C20');
+            socket.emit('join-channel','Cours M10');
+            socket.emit('join-channel','Cours M20');
+            socket.emit('join-channel','Cours EA10');
+            socket.emit('join-channel','Cours EA20');
+          
+
             socket.on('checklog',()=>{
               console.log('FAIT');
               window.location.href = "log.html"
@@ -241,7 +257,8 @@
             var username = name;
             $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
-                socket.emit("MessageSend",username, $("#msg").val()) //Envoyer au socket la val de #msg
+                
+                socket.emit("MessageSend",username, $("#msg").val(),defaultId+0); //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
 
                 element = document.getElementById('test');
@@ -259,12 +276,21 @@
 
             });
 
+            socket.on('OldSend', function(name,msg,hour,channel){
+              element = document.getElementById('test');
+				      element.scrollTop = element.scrollHeight;
+
+              var node = document.getElementById(channel);
+              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+             
+            })
+
             socket.on('ImageSend', function(name,img){
               element = document.getElementById('test');
 				      element.scrollTop = element.scrollHeight;
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
-              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content"> <img src="'+img+'" style="max-width: 500px;"/></div> </div> </div>');
+              node.insertAdjacentHTML('beforeend', '<div class="message"><div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content"> <img src="'+img+'" style="max-width: 500px;"/></div> </div> </div>');
             });
         });
     </script>
