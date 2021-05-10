@@ -190,7 +190,7 @@ io.on('connection', (socket) => {
             
         //})
         connection.connect(function(err) {
-            connection.query("SELECT username, message, date FROM message_log  WHERE channel= ?",[name], function (err, results, fields) {
+            connection.query("SELECT username, message, date, channel FROM message_log  WHERE channel= ?",[name], function (err, results, fields) {
               if (err) throw err;
               results.forEach(function(key, index){
                 io.emit('OldSend',key.username,key.message,key.date,key.channel);
