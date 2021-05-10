@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `message_log` (
   `username` varchar(50) NOT NULL,
   `message` varchar(255) NOT NULL,
   `id` varchar(255) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` datetime NOT NULL,
   `channel` varchar(5000) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
