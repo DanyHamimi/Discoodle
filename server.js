@@ -31,6 +31,7 @@ var connection = mysql.createConnection({
 	password : '',
 	database : 'discoodle',
     charset : 'utf8mb4',
+    dateStrings: true,
 });
 
 connection.connect(function(err) {
