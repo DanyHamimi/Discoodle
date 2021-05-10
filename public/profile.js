@@ -23,7 +23,7 @@ async function confirmDelete() {
 
 function getProfilePictureUrl() {
     return new Promise(function(resolve, reject) {
-        var a = "SELECT profile_picture FROM accounts WHERE id = " + getCookie("uid");
+        var a = "SELECT profile_picture FROM users WHERE id_user = " + getCookie("uid");
         socket.emit("sql-select", a, (response) => {
             resolve(response[0].profile_picture);
         })
@@ -32,7 +32,7 @@ function getProfilePictureUrl() {
 
 function getUsername() {
     return new Promise(function(resolve, reject) {
-        var a = "SELECT username FROM accounts WHERE id = " + getCookie("uid");
+        var a = "SELECT username FROM users WHERE id_user = " + getCookie("uid");
         socket.emit("sql-select", a, (response) => {
             resolve(response[0].username);
         })
@@ -40,7 +40,7 @@ function getUsername() {
 }
 
 function setProfilePictureUrl(url) {
-    var a = "UPDATE accounts SET profile_picture = " + url + " WHERE id = " + getCookie("uid");
+    var a = "UPDATE users SET profile_picture = " + url + " WHERE id_user = " + getCookie("uid");
     socket.emit("sql-update", a, (response) => {
         console.log("Done");
     });
