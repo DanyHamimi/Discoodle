@@ -5,7 +5,7 @@ function initVid() {
   const videoGrid = document.getElementById('video-grid')
   const myPeer = new Peer()
   const myVideo = document.createElement('video') //On crée un  canvas vidéo (qui contiendra l'audio et la vidéo)
-  myVideo.muted = false //Pour ne pas entendre sa propre voix
+  myVideo.muted = true //Pour ne pas entendre sa propre voix
   const peers = {} //Tous les utilisateurs ayant rejoint le P2P
 
   //Ici on demande l'autorisation du navigateur pour prendre les flux audio/vidéo
