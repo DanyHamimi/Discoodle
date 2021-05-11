@@ -21,10 +21,10 @@
             
             <div class="nav-content">
               <ul class="tabs tabs-transparent" style="background-color:#0a0b0c;">
-                <li class="tab"><a href="/">AAL</a></li>
-                <li class="tab"><a class="active" href="/">OL</a></li>
-                <li class="tab "><a href="/">C</a></li>
-                <li class="tab"><a href="/">EA2</a></li>
+                <li class="tab" id="OL"><a class="active" href="/">OL</a></li>
+                <li class="tab" id="M"><a class="active" href="/">Maths</a></li>
+                <li class="tab" id="C"><a href="/">C</a></li>
+                <li class="tab" id="EA"><a href="/">EA2</a></li>
               </ul>
             </div>
           
@@ -103,5 +103,11 @@
     })
     sessionStorage.setItem('clé', false);
     console.log(sessionStorage.getItem('clé'));
+
+
+    $(".tab").click(function(){
+      localStorage.setItem("nom", $(this).attr('id'));
+      console.log(localStorage.getItem('nom'));
+    });
   })
 </script>

@@ -181,6 +181,7 @@
           </div>
         </div>
     </div>
+    <div id="result"></div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script><script  src="./script.js"></script><script  src="./video.js"></script>
     <script>
       var a = 69;
@@ -265,8 +266,14 @@
             for (const element of idArray) {
                 socket.emit('join-channel',element);
             }
-          
-
+            
+            if(localStorage.getItem("nom") !== null){
+              var tabhome = document.getElementById(localStorage.getItem("nom"));
+              if(tabhome.style.display = "none"){
+                display(localStorage.getItem("nom"));
+                localStorage.removeItem("nom");
+              }
+            }
             socket.on('checklog',()=>{
               console.log('FAIT');
               window.location.href = "log.html"
@@ -297,8 +304,9 @@
 				      element.scrollTop = element.scrollHeight;
 
               var node = document.getElementById(channel);
-              node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
-             
+              if(node != null){
+                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+              }
             })
 
             socket.on('ImageSend', function(name,img){
