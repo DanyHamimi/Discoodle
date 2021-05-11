@@ -22,7 +22,8 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
+CREATE DATABASE IF NOT EXISTS discoodle;
+USE discoodle;
 --
 -- Structure de la table `accounts`
 --
