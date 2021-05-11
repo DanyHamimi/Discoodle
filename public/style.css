@@ -16,6 +16,28 @@ html { overflow-y: hidden; }
   overflow-x: hidden;
 }
 
+.circle-logo {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.circle-logo:hover{
+  width: 55px;
+  height: 55px;
+}
+
+.circle-logo img {
+  width: 100%;
+  height: auto;
+}
+
+.message:hover{
+  font-size: 140%;
+}
+
 @media only screen and (max-width : 600px) {
   .discord-mockup {
     flex-direction: column;
