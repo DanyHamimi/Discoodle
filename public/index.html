@@ -77,6 +77,9 @@
                   <div class="item trigger-group" data="Cours EA2">Cours EA2</div>
                   <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
+                <div class="user-bas">
+                  <div class="circle-logo"><img src="./logo.png" /></div><h3 id="name-user-bas"></h3>
+                </div>
               </div>
                
               <div class="messages-panel" id="messages-panel">
@@ -294,6 +297,7 @@
             socket.on('MessageSend', function(name,msg,hour){
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
+              document.getElementById("name-user-bas").innerHTML = name;
               node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
               element = document.getElementById('test');
 				      element.scrollTop = element.scrollHeight;
