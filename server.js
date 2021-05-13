@@ -217,8 +217,7 @@ io.on('connection', (socket) => {
                     
                 });
                 a.then((t)=>{
-                    console.log(t.slice(8));
-                    io.emit('OldSend',key.username,key.message,key.date,key.channel,t.slice(8)); 
+                    io.emit('OldSend',key.username,key.message,key.date,key.channel,t); 
                 
                 }).catch((t)=>{
                     console.log("error"+t);
