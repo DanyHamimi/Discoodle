@@ -13,7 +13,7 @@ function connectVoc(){
 function initVid() {
   //Ici on demande l'autorisation du navigateur pour prendre les flux audio/vidéo
   navigator.mediaDevices.getUserMedia({
-    video: true, //Désactiver ou activer le flux vidéo
+    video: false, //Désactiver ou activer le flux vidéo
     audio: true
   }).then(stream => {
     addVideoStream(myVideo, stream)
