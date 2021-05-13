@@ -215,7 +215,7 @@ io.on('connection', (socket) => {
         console.log('Utilisateur connecté');
         user[socket.id] = name;
         var heure =new Date();
-        io.emit('MessageSend',session.username,"est connecté",heure.getHours()+':'+ heure.getMinutes()+':'+ heure.getSeconds());
+        io.emit('MessageSend',session.username,"est connecté",heure.getHours()+':'+ heure.getMinutes());
     });
 
     socket.on('disconnecting', () => {
@@ -234,7 +234,7 @@ io.on('connection', (socket) => {
     socket.on('MessageSend',(name,msg,channel) =>{
         if ( name && name.length>0 && name !=null ){
             var heure =new Date();
-            io.emit('MessageSend',session.username,msg,heure.getHours()+':'+ heure.getMinutes()+':'+ heure.getSeconds());
+            io.emit('MessageSend',session.username,msg,heure.getHours()+':'+ heure.getMinutes(),channel);
             connection.query('INSERT INTO message_log (username, message, id, date, channel) VALUES (?, ?, ?, ?, ?)', [ session.username, msg, socket.id, new Date(), channel ], function(error, results, fields){
                     if(error) throw error;
             });     

@@ -1,13 +1,16 @@
 //RTC INTEGRATION - Fonctionnel avec micro + caméra en temps réel.
 
-function initVid() {
-  const socket = io('/')
-  const videoGrid = document.getElementById('video-grid')
-  const myPeer = new Peer()
-  const myVideo = document.createElement('video') //On crée un  canvas vidéo (qui contiendra l'audio et la vidéo)
-  myVideo.muted = true //Pour ne pas entendre sa propre voix
-  const peers = {} //Tous les utilisateurs ayant rejoint le P2P
+const socket = io('/')
+const videoGrid = document.getElementById('video-grid')
+const myPeer = new Peer()
+const myVideo = document.createElement('video') //On crée un  canvas vidéo (qui contiendra l'audio et la vidéo)
+myVideo.muted = false //Pour ne pas entendre sa propre voix
+const peers = {} //Tous les utilisateurs ayant rejoint le P2P
 
+function connectVoc(){
+  
+}
+function initVid() {
   //Ici on demande l'autorisation du navigateur pour prendre les flux audio/vidéo
   navigator.mediaDevices.getUserMedia({
     video: false, //Désactiver ou activer le flux vidéo
@@ -29,9 +32,7 @@ function initVid() {
     })
   })
   
-  socket.on('user-disconnected', userId => { //On déconnecte l'utilisateur des peers
-    if (peers[userId]) peers[userId].close()
-  })
+
   
   myPeer.on('open', id => { //Exécuté dès la connexion au P2P. Dès l'appel de la fonction initVid() si la connexion réussit.
     socket.emit('join-room', id) //On fait rejoindre une room à l'utilisateur
@@ -57,4 +58,12 @@ function initVid() {
     })
     videoGrid.append(video)
   }
+}
+
+function leftCall() {
+  myVideo.muted = true;
+}
+
+function unmuteMic(){
+  myVideo.muted = false;
 }

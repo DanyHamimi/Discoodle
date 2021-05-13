@@ -34,8 +34,14 @@ html { overflow-y: hidden; }
   height: auto;
 }
 
-.message:hover{
-  font-size: 140%;
+.buttonmute{
+  color : white;
+  background-color: #202225;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+  font-size: 200%;
+  margin-left: 40%;
 }
 
 .discord-mockup .sidebar-panel .user-bas{
