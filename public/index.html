@@ -268,10 +268,15 @@
             x.style.display = "block";            
           }
         } 
-
-       
+          var t;
+          async function b(uid){
+            t = await getOtherProfilePictureUrl(uid);
+            console.log(t);
+            return t;
+          }
 
         $(function (){
+        
           var socket = io();
             const def = "Utilisateur";
             const name = "test";
@@ -313,15 +318,16 @@
             $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
                 
-                socket.emit("MessageSend",username, $("#msg").val(),defaultId+0); //Envoyer au socket la val de #msg
+                socket.emit("MessageSend",username, $("#msg").val(),new Date(),defaultId+0,getCookie("uid")); //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
 
                 element = document.getElementById('test');
 				        element.scrollTop = element.scrollHeight;
                 return false;
             });
-         
-            socket.on('MessageSend', function(name,msg,hour,channel1){
+            var usid = getCookie("uid");
+            console.log(usid);
+            socket.on('MessageSend', function(name,msg,hour,channel1,usid){
               if (channel1 == defaultId+'0'){
                 var node = document.getElementById(defaultId+'0');
                 console.log(defaultId);
@@ -332,13 +338,14 @@
               }
             });
 
-            socket.on('OldSend', function(name,msg,hour,channel){
+            socket.on('OldSend', function(name,msg,hour,channel,prPic){
               element = document.getElementById('test');
 				      element.scrollTop = element.scrollHeight;
-
               var node = document.getElementById(channel);
+              //getOtherProfilePictureUrl(user_id).then(result => t=result);
+              //b(3);
               if(node != null){
-                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+profile_link+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+prPic+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
               }
             })
 

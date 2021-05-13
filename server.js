@@ -124,8 +124,7 @@ app.post('/auth', function(request, response) {
                                 io.emit("logged", request.body.username);
                                 request.session.loggedin = true;
                                 request.session.username = username;
-                                console.log(request.session.username);
-                                //console.log(t); 
+                                 
                                 a = results[0].id_user;
                                 response.cookie("uid", a);
                                 return response.redirect('/home.html');
@@ -143,7 +142,7 @@ app.post('/auth', function(request, response) {
                 });
             } else {
                // response.send('Please enter Username and Password!');
-               console.log("3333");
+            
                 //response.end();
             }
 	
@@ -182,7 +181,15 @@ app.post('/reg', function(request, response) {
 	}
 });
 
-
+function test(uid){
+    connection.connect(function(err) {
+        connection.query("SELECT profile_picture FROM users WHERE id_user = ?",[uid], function (err, results, fields) {
+          if (err) throw err;
+          //console.log(results[0].profile_picture);
+          return results[0];
+        });
+      });
+}
 
 io.on('connection', (socket) => {
     var session = socket.handshake.session;
@@ -196,10 +203,26 @@ io.on('connection', (socket) => {
             
         //})
         connection.connect(function(err) {
-            connection.query("SELECT username, message, date, channel FROM message_log  WHERE channel= ?",[name], function (err, results, fields) {
+            connection.query("SELECT username, message, date, channel, user_id FROM message_log  WHERE channel= ?",[name], function (err, results, fields) {
               if (err) throw err;
               results.forEach(function(key, index){
-                io.emit('OldSend',key.username,key.message,key.date,key.channel);
+                let a = new Promise(function(resolve, reject) {
+                    connection.connect(function(err) {
+                        connection.query("SELECT profile_picture FROM users WHERE id_user = ?",[key.user_id], function (err, res, fields) {
+                          if (err) throw err;
+                          //console.log(results[0].profile_picture);
+                          resolve( res[0].profile_picture);
+                        });
+                      });
+                    
+                });
+                a.then((t)=>{
+                    console.log(t.slice(8));
+                    io.emit('OldSend',key.username,key.message,key.date,key.channel,t.slice(8)); 
+                
+                }).catch((t)=>{
+                    console.log("error"+t);
+                });  
               })
             });
           });
@@ -220,7 +243,7 @@ io.on('connection', (socket) => {
 
     socket.on('disconnecting', () => {
         io.emit('MessageSend', user[socket.id],"s'est déconnecté");
-        console.log(socket.rooms); // Set contient le socket ID
+
     });
 
     socket.on('disconnecting', () => {
@@ -231,11 +254,11 @@ io.on('connection', (socket) => {
 
     
 
-    socket.on('MessageSend',(name,msg,channel) =>{
+    socket.on('MessageSend',(name,msg,hour,channel,uid) =>{
         if ( name && name.length>0 && name !=null ){
             var heure =new Date();
-            io.emit('MessageSend',session.username,msg,heure.getHours()+':'+ heure.getMinutes(),channel);
-            connection.query('INSERT INTO message_log (username, message, id, date, channel) VALUES (?, ?, ?, ?, ?)', [ session.username, msg, socket.id, new Date(), channel ], function(error, results, fields){
+            io.emit('MessageSend',session.username,msg,heure.getHours()+':'+ heure.getMinutes(),channel,uid);
+            connection.query('INSERT INTO message_log (username, message, id, date, channel,user_id) VALUES (?, ?, ?, ?, ?, ?)', [ session.username, msg, socket.id, new Date(), channel,uid ], function(error, results, fields){
                     if(error) throw error;
             });     
         }
@@ -253,7 +276,6 @@ io.on('connection', (socket) => {
     });
     
     socket.on('articleload', ()=>{
-        console.log('test articles');
         connection.query('SELECT * FROM articles', function(error, results, fields){
 			if (results.length > 0) {
 				io.emit('articleload',results);
@@ -262,7 +284,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('checklog',()=>{
-        console.log(session.loggedin);
         if(session.loggedin != 1){
             io.emit('checklog');
         }
@@ -270,7 +291,6 @@ io.on('connection', (socket) => {
     //Requêtes BDD
 
     socket.on('sql-select', function(req, res) {
-        console.log(req);
         connection.query(req, function(error, results, fields) {
             if(results.length > 0) res(results);
             else console.log('No results... yet !');
@@ -343,7 +363,6 @@ app.post(
         fs.rename(original, target, err => {
           if (err) return errHandler(err, res);
           var tempo = "." + a.slice(8);
-          console.log('UPDATE accounts SET profile_picture = ' + "." + a.slice(8) + ' WHERE id_user = '+ req.cookies.uid);
           connection.query('UPDATE users SET profile_picture = ? WHERE id_user = ?', [tempo, req.cookies.uid], function(error, results) {
              if (error) throw error;
           });
