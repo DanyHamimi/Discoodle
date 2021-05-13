@@ -79,7 +79,14 @@
                   <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
                 <div class="user-bas">
-                  <div class="circle-logo"><img src="./img/0.png" /></div><h3 id="name-user-bas"></h3>
+                  <div class="circle-logo"><img src="./img/0.png" id="imageid"/></div><h3 id="name-user-bas"></h3>
+                  <script src="profile.js"></script>
+                  <script>
+                    async function a(){
+                      document.getElementById("imageid").src= await getProfilePictureUrl();
+                    }
+                    a();
+                  </script>
                   <button id="button" class="buttonmute"><i class="fa fa-phone"></i></button>
                         <script>var button = document.getElementById('button');
                           i = 0;

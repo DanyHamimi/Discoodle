@@ -22,9 +22,11 @@ async function confirmDelete() {
 }
 
 function getProfilePictureUrl() {
+    console.log("test")
     return new Promise(function(resolve, reject) {
         var a = "SELECT profile_picture FROM users WHERE id_user = " + getCookie("uid");
         socket.emit("sql-select", a, (response) => {
+            console.log(a);
             resolve(response[0].profile_picture);
         })
     });
