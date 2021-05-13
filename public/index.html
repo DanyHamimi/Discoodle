@@ -82,8 +82,10 @@
                   <div class="circle-logo"><img src="./img/0.png" id="imageid"/></div><h3 id="name-user-bas"></h3>
                   <script src="profile.js"></script>
                   <script>
+                    var profile_link;
                     async function a(){
-                      document.getElementById("imageid").src= await getProfilePictureUrl();
+                      profile_link = await getProfilePictureUrl();
+                      document.getElementById("imageid").src= profile_link;
                     }
                     a();
                   </script>
@@ -324,7 +326,7 @@
                 var node = document.getElementById(defaultId+'0');
                 console.log(defaultId);
                 document.getElementById("name-user-bas").innerHTML = name;
-                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+profile_link+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
                 element = document.getElementById('test');
                 element.scrollTop = element.scrollHeight;
               }
@@ -336,7 +338,7 @@
 
               var node = document.getElementById(channel);
               if(node != null){
-                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+profile_link+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
               }
             })
 
