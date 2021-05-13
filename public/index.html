@@ -318,7 +318,7 @@
             $("#msgform").submit(function(e) {
                 e.preventDefault(); // Pour pas que la page se recharge
                 
-                socket.emit("MessageSend",username, $("#msg").val(),new Date(),defaultId+0,getCookie("uid")); //Envoyer au socket la val de #msg
+                socket.emit("MessageSend",username, $("#msg").val(),new Date(),defaultId+0,getCookie("uid"),profile_link); //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
 
                 element = document.getElementById('test');
@@ -326,12 +326,12 @@
                 return false;
             });
            
-            socket.on('MessageSend', function(name,msg,hour,channel1,usid){
+            socket.on('MessageSend', function(name,msg,hour,channel1,usid,prfPic){
               if (channel1 == defaultId+'0'){
                 var node = document.getElementById(defaultId+'0');
                 console.log(defaultId);
                 document.getElementById("name-user-bas").innerHTML = name;
-                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+profile_link+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
+                node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+prfPic+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
                 element = document.getElementById('test');
                 element.scrollTop = element.scrollHeight;
               }

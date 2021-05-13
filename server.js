@@ -253,10 +253,10 @@ io.on('connection', (socket) => {
 
     
 
-    socket.on('MessageSend',(name,msg,hour,channel,uid) =>{
+    socket.on('MessageSend',(name,msg,hour,channel,uid,prfPic) =>{
         if ( name && name.length>0 && name !=null ){
             var heure =new Date();
-            io.emit('MessageSend',session.username,msg,heure.getHours()+':'+ heure.getMinutes(),channel,uid);
+            io.emit('MessageSend',session.username,msg,heure.getHours()+':'+ heure.getMinutes(),channel,uid,prfPic);
             connection.query('INSERT INTO message_log (username, message, id, date, channel,user_id) VALUES (?, ?, ?, ?, ?, ?)', [ session.username, msg, socket.id, new Date(), channel,uid ], function(error, results, fields){
                     if(error) throw error;
             });     
