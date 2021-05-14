@@ -107,9 +107,11 @@ app.get('/messages', function (req, res) {
 app.post('/auth', function(request, response) {
 	var username = request.body.username
 	var password = request.body.password;
+    var us;
             if (username && password) {
-                connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
+                connection.query('SELECT * FROM users WHERE email = ?', [username], function(error, results, fields) {
                     if (results.length > 0) {
+                        us = results[0].username;
                         let t = new Promise(function(resolve, reject) {
                             bcrypt.compare(password, results[0].password, function(err, res) {
                                 if (err) {
@@ -123,7 +125,7 @@ app.post('/auth', function(request, response) {
                             if (pswRes==true){
                                 io.emit("logged", request.body.username);
                                 request.session.loggedin = true;
-                                request.session.username = username;
+                                request.session.username = us;
                                  
                                 a = results[0].id_user;
                                 response.cookie("uid", a);
