@@ -296,7 +296,6 @@ io.on('connection', (socket) => {
         }
     })
 
-    isloged
     //Requêtes BDD
 
     socket.on('sql-select', function(req, res) {
