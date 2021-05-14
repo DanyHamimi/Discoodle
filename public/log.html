@@ -3,16 +3,35 @@
 		<meta charset="utf-8">
 		<title>Login Form Tutorial</title>
 		<link rel="stylesheet" href="log.css">
+		<script src='/socket.io/socket.io.js'></script>
+  		<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
 	</head>
 	<body>
 		<div class="login-form">
 			<h1>Login Form</h1>
+			<p id="action"></p>
 			<form action="auth" method="POST">
 				<input type="text" name="username" placeholder="Username" required>
 				<input type="password" name="password" placeholder="Password" required>
-				<input type="submit">
+				<input id="submit" type="submit">
 				<p><a href="/register.html" class="regtext">Pas encore inscrit ? Vous pour le faire ici</a></p>
 			</form>
 		</div>
+		<script>
+			$(function (){
+				var socket = io();
+				socket.emit('islogged');
+				socket.on('islogged',()=>{
+              		document.getElementById('action').innerHTML = "Veuillez-entrez une combinaison valide!";
+            	});
+				socket.on('redirecthome',()=>{
+              		document.getElementById('action').innerHTML = "Vous êtes déjà connecté! Vous allez être redirigé";
+					setTimeout(function () {
+       					window.location.href = "index.html"; 
+    				}, 1000);
+            	});
+			});
+		
+		</script>
 	</body>
 </html>
