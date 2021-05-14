@@ -54,25 +54,25 @@
           
               <div class="sidebar-panel hide-on-med-and-down" id="module">
                 <div class="header">Projet de Programmation</div>
-                <div class="items" style="display:none" id="OL"><a href="#">
+                <div class="items" style="display:block" id="OL"><a href="#">
                     <div class="item trigger-group" data="Progra">Programmation</div>
                     <div class="item trigger-group" data="ea4">EA4</div>
                     <div class="item trigger-group" data="Stats">Stats</div>
                     <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
-                <div class="items" style="display:none" id="M"><a href="#">
+                <div class="items" style="display:block" id="M"><a href="#">
                   <div class="item trigger-group" data="Progra">Programmation</div>
                   <div class="item trigger-group" data="Cours M1">Cours M1</div>
                   <div class="item trigger-group" data="Cours M2">Cours M2</div>
                   <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
-                <div class="items" style="display:none" id="C"><a href="#">
+                <div class="items" style="display:block" id="C"><a href="#">
                   <div class="item trigger-group" data="Progra">Programmation</div>
                   <div class="item trigger-group" data="Cours C1">Cours C1</div>
                   <div class="item trigger-group" data="Cours C2">Cours C2</div>
                   <div class="item trigger-group" data="Video">Appel Vidéo</div>
                 </a></div>
-                <div class="items" style="display:none" id="EA"><a href="#">
+                <div class="items" style="display:block" id="EA"><a href="#">
                   <div class="item trigger-group" data="Progra">Programmation</div>
                   <div class="item trigger-group" data="Cours EA1">Cours EA1</div>
                   <div class="item trigger-group" data="Cours EA2">Cours EA2</div>
@@ -112,7 +112,7 @@
               </div>
                
               <div class="messages-panel" id="messages-panel">
-                <div class="test" id="test">
+                <div class="test" id="msg-chan">
                   <div class="messages-group hide-unless-show" id="Progra">
                     <div class="header">Général</div>
                     <div class="messages" id = "Progra0">
@@ -222,6 +222,7 @@
     <div id="result"></div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script><script  src="./script.js"></script><script  src="./video.js"></script>
     <script>
+      document.getElementById('messages-panel').insertAdjacentHTML('beforeEnd','<div class="messages-group hide-unless-show" id="lololololo"><div class="header">lololololo</div></div>');
       var a = 69;
         function get(name){
             var url = window.location.search;
@@ -241,7 +242,7 @@
           var res = String.fromCharCode(a);
           document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add">' + res + '</button>');
         }
-
+        
         function enableEmo(elem) {
           document.querySelector('#msg').value += elem.textContent;
         }
@@ -252,6 +253,8 @@
           var ol = document.getElementById("OL");
           var c = document.getElementById("C");
           var m = document.getElementById("M");
+          document.getElementById('module').innerHTML = "";
+          document.getElementById('module').innerHTML = '<div class="header">Projet de Programmation</div>';
           if (!x){
             var test = "SELECT * FROM `cours` WHERE libelle_cours = "+elemt;
             //console.log(test);
@@ -261,7 +264,7 @@
                 console.log(res);
                 console.log(res.length)
 
-                document.getElementById('module').insertAdjacentHTML('beforeEnd','<div class="items" style="display:none" id="'+result[i].libelle_cours+'"><a id="'+result[i].libelle_cours+'test" href="#"></a></div>');
+                document.getElementById('module').insertAdjacentHTML('beforeEnd','<div class="items" style="display:block" id="'+result[i].libelle_cours+'"><a id="'+result[i].libelle_cours+'test" href="#"></a></div>');
                   var j = 0;
                   for (let i = 0; i < res.length; i++) {
                     var toto = result[0].libelle_cours+"test";
@@ -273,7 +276,7 @@
                   
             })
           }
-          if (x.style.display === "none") {
+          /*if (x.style.display === "none") {
             if(x === ea){
               ol.style.display = "none";
               c.style.display = "none";
@@ -294,8 +297,9 @@
               ol.style.display = "none";
               m.style.display = "none";  
             }
-            x.style.display = "block";            
-          }
+                     
+          }*/
+          x.style.display = "block";   
         } 
           var t;
           async function b(uid){
@@ -351,7 +355,7 @@
                 socket.emit("MessageSend",username, $("#msg").val(),new Date(),defaultId+0,getCookie("uid"),profile_link); //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
 
-                element = document.getElementById('test');
+                element = document.getElementById('msg-chan');
 				        element.scrollTop = element.scrollHeight;
                 return false;
             });
@@ -361,13 +365,13 @@
                 var node = document.getElementById(defaultId+'0');
                 console.log(defaultId);
                 node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+prfPic+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
-                element = document.getElementById('test');
+                element = document.getElementById('msg-chan');
                 element.scrollTop = element.scrollHeight;
               }
             });
 
             socket.on('OldSend', function(name,msg,hour,channel,prPic){
-              element = document.getElementById('test');
+              element = document.getElementById('msg-chan');
 				      element.scrollTop = element.scrollHeight;
               var node = document.getElementById(channel);
               if(node != null){
@@ -376,7 +380,7 @@
             })
 
             socket.on('ImageSend', function(name,img){
-              element = document.getElementById('test');
+              element = document.getElementById('msg-chan');
 				      element.scrollTop = element.scrollHeight;
               var node = document.getElementById(defaultId+'0');
               console.log(defaultId);
