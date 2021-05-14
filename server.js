@@ -287,6 +287,16 @@ io.on('connection', (socket) => {
             io.emit('checklog');
         }
     })
+
+    socket.on('islogged',()=>{
+        if(session.loggedin != 1){
+            io.emit('islogged');
+        }else{
+            io.emit('redirecthome');
+        }
+    })
+
+    isloged
     //Requêtes BDD
 
     socket.on('sql-select', function(req, res) {
