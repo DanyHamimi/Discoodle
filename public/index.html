@@ -43,9 +43,6 @@
                             <img src="./logo.png" />
                           </a>
                         </div>
-                      <button class="guild-add" onclick='display("C")'>C</button>
-                      <button class="guild-add" onclick='display("EA")'>EA</button>
-                      <button class="guild-add" onclick='display("M")'>M</button>
                     </div>  
                     <button class="guild-add" onclick="addChan()">+</button>
                   </div>
@@ -271,13 +268,15 @@
                     console.log(toto);
                     document.getElementById(toto).insertAdjacentHTML('beforeEnd','<div class="item trigger-group" id="testtest" data="'+ res[i].libelle_module+ '">'+ res[i].libelle_module+ '</div>');
                     document.getElementById('msg-chan').insertAdjacentHTML('beforeEnd','<div class="messages-group hide-unless-show" id="'+res[i].libelle_module+'"><div class="header">'+res[i].libelle_module+'</div><div class="messages" id = "'+res[i].libelle_module+"0"+'"></div></div>');
+                    socket.emit('join-channel',res[i].libelle_module+"0");
                   }
                 
                 });
                   
             })
           }
-          socket.emit('join-channel',"test dany");
+
+          
          
           /*if (x.style.display === "none") {
             if(x === ea){

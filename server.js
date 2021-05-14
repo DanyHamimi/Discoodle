@@ -219,13 +219,13 @@ io.on('connection', (socket) => {
                     
                 });
                 a.then((t)=>{
-                    io.emit('OldSend',key.username,key.message,key.date,key.channel,t); 
-                
+                    io.emit('OldSend',key.username,key.message,key.date,key.channel,t);
                 }).catch((t)=>{
                     console.log("error"+t);
                 });  
               })
             });
+
           });
     });
 
