@@ -1,7 +1,12 @@
 //RTC INTEGRATION - Fonctionnel avec micro + caméra en temps réel.
 
-const socket = io('/')
-const videoGrid = document.getElementById('video-grid')
+if (typeof socket === 'undefined') {
+  const socket = io('/')
+}
+
+if (typeof videoGrid === 'undefined') {
+  const videoGrid = document.getElementById('video-grid')
+}
 const myPeer = new Peer()
 const myVideo = document.createElement('video') //On crée un  canvas vidéo (qui contiendra l'audio et la vidéo)
 myVideo.muted = false //Pour ne pas entendre sa propre voix
