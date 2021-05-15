@@ -90,11 +90,11 @@ app.post('/index.html', function (req, res) {
 })
 
 app.post('/writeArticle.html', function (req, res) {
-    var p1 = req.params("fradio");
+    var p1 = req.param("fradio");
     console.log(p1);
-    var p2 = req.params("text");
+    var p2 = req.param("text");
     console.log(p2);
-    var p3 = req.params("articletext");
+    var p3 = req.param("articletext");
     console.log(p3);
     var sql = "INSERT INTO articles (nom, contenu,auteur,type) VALUES ('"+p2+"','"+p3+"','"+req.session.username+"','"+p1+"')";
     connection.query(sql, function (err, result) {
