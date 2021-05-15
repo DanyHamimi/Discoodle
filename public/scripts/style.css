@@ -114,4 +114,26 @@ body{
    color: white;
  }
 
+ .tabadmin{
+	border-collapse: collapse;
+	margin-left:auto;
+    margin-right:auto;
+    margin-top: 1%;
+}
+
+.tabadmin th, td{
+  padding: 15px;
+  text-align: left;
+
+}
+
+
+.tdadmin{
+	background-color: white;
+}
+.tdnom{
+	color: white;
+}
+
+
 
