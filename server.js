@@ -271,10 +271,16 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('join-room', (userId) => { //Système de room pour le WebRTC - userId est l'ID peer unique de l'utilsateur
-        console.log(userId)
-        io.emit('user-joined', userId);
+    socket.on('join-room', (roomId, userId) => { //Système de room pour le WebRTC - userId est l'ID peer unique de l'utilsateur
+        console.log(roomId + " -> this is room id");
+        console.log(userId + " -> this is user id");
+        socket.join(roomId);
+        socket.to(roomId).broadcast.emit('user-joined', userId);
     });
+
+    socket.on('disconnect', (roomId, userId) => {
+        socket.to(roomId).broadcast.emit('user-disconnected', userId)
+    })
     
     socket.on('articleload', ()=>{
         connection.query('SELECT * FROM articles', function(error, results, fields){
