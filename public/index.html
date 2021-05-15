@@ -153,9 +153,16 @@
                        if (p === false) {
                          document.getElementById('msg-chan').insertAdjacentHTML('beforeEnd','<div class="messages-group hide-unless-show" id="'+res[i].libelle_module+'"><div class="header">'+res[i].libelle_module+'</div><div class="messages" id = "'+res[i].libelle_module+"0"+'"></div></div>');
                        }
-                       
+              
                        socket.emit('join-channel',res[i].libelle_module+"0");
                      }
+                     var l = document.contains(document.getElementById("chat"+result[0].libelle_cours));
+                     if (l === false) {
+                      document.getElementById(toto).insertAdjacentHTML('beforeEnd','<div class="item trigger-group" id="testtest" data="chat'+result[0].libelle_cours+'">'+result[0].libelle_cours+' chat</div>');
+                      document.getElementById('msg-chan').insertAdjacentHTML('beforeEnd','<div class="messages-group hide-unless-show" id="chat'+result[0].libelle_cours+'"><div class="header">'+result[0].libelle_cours+' chat</div><div class="messages" id ="chat'+result[0].libelle_cours+"0"+'"></div></div>');
+                      socket.emit('join-channel',"chat"+result[0].libelle_cours+"0");
+                     }
+                     
                      //document.getElementById(toto).insertAdjacentHTML('beforeEnd','<div class="messages-group hide-unless-show" id="'+res[0].id_cours+'"><div class="header">video'+result[0].id_cours+'</div><div class="messages" id = "'+res[i].libelle_module+"0"+'"></div></div>');
                    });
                      
@@ -192,6 +199,7 @@
                  for (let i = 0; i < result.length; i++) {
                    document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
                  }
+                 
                })
                })
                socket.emit('user-created',name);
