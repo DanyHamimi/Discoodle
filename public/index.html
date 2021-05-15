@@ -119,6 +119,7 @@
       <div id="result"></div>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script><script  src="./script.js"></script><script  src="./video.js"></script>
       <script>
+        var currentChannel;
          var a = 69;
            function get(name){
                var url = window.location.search;
@@ -145,6 +146,7 @@
          
            function display(elemt) {
              var x = document.getElementById(elemt);
+             currentChannel = elemt;
              document.getElementById('module2').innerHTML = "";
              //document.getElementById('module2').innerHTML = '<div class="header">Projet de Programmation</div>';
              if (!x){
@@ -285,8 +287,9 @@
          const mySocket = io('/')
          var button = document.getElementById('button');
          button.addEventListener('click', function() {
+           if(currentChannel) {
              this.innerHTML = "<i class=\"fa fa-microphone\"></i>";
-             var myRoomId = "124";
+             var myRoomId = currentChannel;
              var a = "SELECT username FROM users WHERE id_user = " + getCookie("uid");
              var username;
              mySocket.emit("sql-select", a, (response) => {
@@ -295,6 +298,7 @@
                  let roomUrl = "video.html?room=" + myRoomId + "&userId=" + username;
                  window.open(roomUrl); 
              })
+            }
              
            })
            
