@@ -67,4 +67,4 @@ If the console logs `Server started`, we can open a web browser and type the url
 2) Real time WebSocket image upload and display.
 3) Server - Channel - Chat hierarchy.
 4) Client side SQL API. Can interact with database anywhere in any file.
-5) 
+5) HTTPS

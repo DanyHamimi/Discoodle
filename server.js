@@ -2,11 +2,22 @@ var express = require('express');
 var app = express();
 const multer = require("multer");
 const bodyParser = require('body-parser');
+const fs = require('fs');
+/*
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/chain.pem', 'utf8');
+const credit = {
+	        key: privateKey,
+	        cert: certificate,
+	        ca: ca
+};
+const server = require('https').createServer(credit,app);
+*/
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {'pingTimeout': 180000, 'pingInterval': 25000});
 const port = process.env.PORT || 5000;
 const path = require('path');
-const fs = require('fs');
 const bcrypt = require('bcrypt');
 const util = require('util');
 const { PassThrough } = require('stream');
