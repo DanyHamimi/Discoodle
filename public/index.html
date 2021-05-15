@@ -69,21 +69,6 @@
                            a();
                         </script>
                         <button id="button" class="buttonmute"><i class="fa fa-phone"></i></button>
-                        <script>var button = document.getElementById('button');
-                           i = 0;
-                           button.addEventListener('click', function() {
-                               if (i == 0){
-                                 this.innerHTML = "<i class=\"fa fa-microphone\"></i>";
-                                 initVid();
-                                 unmuteMic();
-                               }
-                               else{
-                                 this.innerHTML = "<i class=\"fa fa-microphone-slash\"></i>";
-                                 leftCall();
-                               }
-                               i = (i+1)%2;
-                           }, false);
-                        </script>
                      </div>
                   </div>
                   <div class="messages-panel" id="messages-panel">
