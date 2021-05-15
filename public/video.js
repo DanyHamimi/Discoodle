@@ -1,72 +1,89 @@
 //RTC INTEGRATION - Fonctionnel avec micro + caméra en temps réel.
 
-if (typeof socket === 'undefined') {
-  const socket = io('/')
-}
-
-if (typeof videoGrid === 'undefined') {
-  const videoGrid = document.getElementById('video-grid')
-}
+console.log("Finally...")
+const roomId = "3232131"
+const socket = io('/')
+const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer()
+console.log("My user id is : " + myPeer.id)
 const myVideo = document.createElement('video') //On crée un  canvas vidéo (qui contiendra l'audio et la vidéo)
-myVideo.muted = false //Pour ne pas entendre sa propre voix
+myVideo.muted = true //Pour ne pas entendre sa propre voix
 const peers = {} //Tous les utilisateurs ayant rejoint le P2P
 
-function connectVoc(){
-  
-}
-function initVid() {
-  //Ici on demande l'autorisation du navigateur pour prendre les flux audio/vidéo
-  navigator.mediaDevices.getUserMedia({
-    video: false, //Désactiver ou activer le flux vidéo
-    audio: true
-  }).then(stream => {
-    addVideoStream(myVideo, stream)
-  
-    myPeer.on('call', call => { //Listener sur les utilisateurs qui rejoignent
-      call.answer(stream)
-      const video = document.createElement('video')
-      call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
-      })
-    })
-  
-    socket.on('user-joined', userId => { //Liaison Socket.io - PeerJs
-      console.log(userId)
-      connectToNewUser(userId, stream)
-    })
-  })
-  
+var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+getUserMedia({video: true, audio: true}, function(stream) {
+  addVideoStream(myVideo, stream);
 
-  
-  myPeer.on('open', id => { //Exécuté dès la connexion au P2P. Dès l'appel de la fonction initVid() si la connexion réussit.
-    socket.emit('join-room', id) //On fait rejoindre une room à l'utilisateur
+  /*myPeer.on('call', (call) => { //Recieves call
+    console.log("I recieved a call, hurray !")
+    call.answer(stream)
+    console.log("I answered the call")
+    var vid2 = document.createElement('video')
+    call.on('stream', (otherStream) => {
+      addVideoStream(vid2, otherStream)
+    })
+  })*/
+
+  socket.on('user-joined', (userId) => { //Only users already in channel recieve this event
+    connectToUser(userId, stream)
+
   })
-  
-  function connectToNewUser(userId, stream) { //Executé pour tous les utilisateurs Peer
-    const call = myPeer.call(userId, stream)
-    const video = document.createElement('video')
-    call.on('stream', userVideoStream => { //Dès qu'on reçoit un flux vidéo
-      addVideoStream(video, userVideoStream)
+}, function(err) {
+  console.log('Failed to get local stream' ,err)
+})
+
+myPeer.on('call', (call) => { //Recieves call
+  getUserMedia({video: true, audio: true}, function(stream) {
+    console.log("I recieved a call, hurray !")
+    call.answer(stream)
+    console.log("I answered the call")
+    var vid2 = document.createElement('video')
+    call.on('stream', (otherStream) => {
+      addVideoStream(vid2, otherStream)
     })
-    call.on('close', () => { //Dès qu'on ferme la connexion
-      video.remove()
+  })
+})
+
+myPeer.on('open', id => {
+  socket.emit('join-room', roomId, id)
+  console.log("Just opened, we emitted !")
+})
+
+socket.on('user-disconnected', (userId) => {
+  console.log("We recieved : user disconnected")
+  if(peers[userId]) peers[userId].close();
+})
+
+function connectToUser(userId, stream) {
+  console.log("User has joined!")
+    var call = myPeer.call(userId, stream);
+    console.log("Calling : " + userId)
+    var vid = document.createElement('video')
+    peers[userId] = call;
+    call.on('stream', function(remoteStream) { //Answered
+      console.log(userId + " has answered.")
+      addVideoStream(vid, remoteStream)
     })
-  
-    peers[userId] = call
-  }
-  
-  function addVideoStream(video, stream) { //Fonction qui agit sur l'HTML de la page et qui lie le flux Peer au canva 'video'
-    video.srcObject = stream
-    video.addEventListener('loadedmetadata', () => {
-      video.play()
+
+    call.on('close', () => {
+      vid.remove()
     })
-    videoGrid.append(video)
-  }
+}
+
+function addVideoStream(video, stream) {
+  video.srcObject = stream
+  video.addEventListener('loadedmetadata', () => {
+    video.play()
+  })
+  videoGrid.append(video)
+}
+
+function leaveCall() {
+  socket.emit('disconnect', roomId, myPeer.id)
 }
 
 function leftCall() {
-  myVideo.muted = true;
+  socket.emit('disconnect', roomId, myPeer.id)
 }
 
 function unmuteMic(){
