@@ -189,5 +189,14 @@ async function updateInfo() {
   document.getElementById('username').innerHTML = await getUsername();
 }
 </script>
+<script>
+  $(function (){
+    var socket = io();
+    socket.emit('checklog');
+    socket.on('checklog',()=>{
+      window.location.href = "log.html"
+    })
+  });
+</script>
 </body>
 </html>

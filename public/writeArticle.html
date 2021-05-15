@@ -22,20 +22,18 @@
     <div class="col s12 m3 l3">
       <div class="sidenav">
           <h3>Projet de Programmation</h3><hr/>
-          
           <div class="nav-content">
             <ul class="tabs tabs-transparent" style="background-color:#0a0b0c;">
-              <li class="tab"><a href="https://www.google.com/">AAL</a></li>
-              <li class="tab"><a class="active" href="https://www.google.com/">OL</a></li>
-              <li class="tab "><a href="https://www.google.com/">C</a></li>
-              <li class="tab"><a href="https://www.google.com/">EA2</a></li>
+              <li class="tab" id="OL"><a class="active" href="/">OL</a></li>
+              <li class="tab" id="M"><a class="active" href="/">Maths</a></li>
+              <li class="tab" id="C"><a href="/">C</a></li>
+              <li class="tab" id="EA"><a href="/">EA2</a></li>
             </ul>
           </div>
-        
           <div class="subnav">
             <ul>
-              <li><a href="home.html"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
-              <li><a class="active" href="https://www.google.com/"><i class="fa fa-address-card" aria-hidden="true"></i> Profil</a></li>
+              <li><a href="/index.html"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
+              <li><a class="active" href="/profile.html"><i class="fa fa-address-card" aria-hidden="true"></i> Profil</a></li>
               <li><a href="index.html"><i class="fa fa-paper-plane" aria-hidden="true"></i> Messages</a></li>
               <li><a href="https://www.google.com/"><i class="fa fa-life-ring" aria-hidden="true"></i> Préférences</a></li>
               <li><a href="writeArticle.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Écrire un article</a></li>
@@ -45,37 +43,41 @@
       </div> 
     </div>
     </div>
-    <form method="POST" action="">
-        <h1>Ecrire un artcle</h1> 
+      <div id="container_logo">
+        <img src="content/logo.png" alt="Logo" />
+      </div>
+    
+      <form method="POST" action="">
+        <h1>Ecrire un article</h1> 
         <div class="row">
           <input type="text" name="text" id="text" style="color: white;"/>
           <label for="text">Nom</label>
         </div>
-        
         <div class="row">
           <textarea name="articletext" id="articletext" style="color: white;"></textarea>
           <label for="articletext">Contenu de votre article</label>
         </div>
         <div class="row">
             <p style="color: white;">Type d'article</p>
-            <input type="radio" name="fradio" id="fradio1" value="0"/>
+            <input class="with-gap"type="radio" name="fradio" id="fradio1" value="0"/>
             <label for="fradio1">Radio</label>Article Important
-
             <br><br>            
             <input type="radio" name="fradio" id="fradio2" value="1"/>
             <label for="fradio2">Radio</label> Simple news
           </div>
         <button type="submit" tabindex="0">Poster l'article</button>
       </form>
+
     
 </body>
 </html> 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script><script  src="./script.js"></script><script  src="./video.js"></script>
-
 <script>
-  var socket = io();
-  socket.emit('checklog');
-  socket.on('checklog',()=>{
-  window.location.href = "log.html"
-  })
+    $(function (){
+      var socket = io();
+      socket.emit('checklog');
+      socket.on('checklog',()=>{
+        window.location.href = "log.html"
+      })
+    });
 </script>
