@@ -31,6 +31,7 @@ console.log(defaultId);
         console.log($(this).attr('data'));
         var id = $(this).attr('data');
         showGroup(id);
+        console.log(id);
        
    });
 })(jQuery); // End of use strict
