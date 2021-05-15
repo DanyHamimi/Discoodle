@@ -26,13 +26,6 @@ console.log(defaultId);
     });
 
 
-    $('.trigger-group').click(function() {
-        console.log("here");
-        console.log($(this).attr('data'));
-        var id = $(this).attr('data');
-        showGroup(id);
-    });
-
     $(document).on('click', '.trigger-group', function(){ 
         console.log("here");
         console.log($(this).attr('data'));
