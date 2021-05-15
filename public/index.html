@@ -50,7 +50,7 @@
               </div>
           
               <div class="sidebar-panel hide-on-med-and-down" id="module">
-                <div class="header">Projet de Programmation</div>
+                <div class="header" id="hometop">Discoodog de toi</div>
                 <div class="items" style="display:block" id="OL"><a href="#">
                     <div class="item trigger-group" data="Progra">Programmation</div>
                     <div class="item trigger-group" data="ea4">EA4</div>
@@ -86,7 +86,13 @@
                       profile_link = await getProfilePictureUrl();
                       user_name = await getUsername();
                       document.getElementById("imageid").src= profile_link;
+                      counter = user_name.length;
+                      console.log(counter);
+                      if (counter>10){
+                        user_name = user_name.substring(0,10)+"...";
+                      }
                       document.getElementById("name-user-bas").innerHTML = user_name;
+                      document.getElementById("hometop").innerHTML = "Discoodog de "+user_name;
                     }
                     a();
                   </script>
