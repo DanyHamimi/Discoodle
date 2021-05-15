@@ -2,22 +2,11 @@ var express = require('express');
 var app = express();
 const multer = require("multer");
 const bodyParser = require('body-parser');
-const fs = require('fs');
-/*
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/discoo.dog/chain.pem', 'utf8');
-const credit = {
-	        key: privateKey,
-	        cert: certificate,
-	        ca: ca
-};
-const server = require('https').createServer(credit,app);
-*/
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {'pingTimeout': 180000, 'pingInterval': 25000});
 const port = process.env.PORT || 5000;
 const path = require('path');
+const fs = require('fs');
 const bcrypt = require('bcrypt');
 const util = require('util');
 const { PassThrough } = require('stream');
@@ -244,14 +233,6 @@ io.on('connection', (socket) => {
         io.emit('OldSend',name,msg,hour,channel);
     });
 
-    
-
-    socket.on('user-created', name => {
-        console.log('Utilisateur connecté');
-        user[socket.id] = name;
-        var heure =new Date();
-        io.emit('MessageSend',session.username,"est connecté",heure.getHours()+':'+ heure.getMinutes());
-    });
 
     socket.on('disconnecting', () => {
         io.emit('MessageSend', user[socket.id],"s'est déconnecté");
@@ -292,14 +273,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', (roomId, userId) => {
         socket.to(roomId).broadcast.emit('user-disconnected', userId)
     })
-    
-    socket.on('articleload', ()=>{
-        connection.query('SELECT * FROM articles', function(error, results, fields){
-			if (results.length > 0) {
-				io.emit('articleload',results);
-			}
-        })
-    });
 
     socket.on('checklog',()=>{
         if(session.loggedin != 1){

@@ -50,8 +50,6 @@
               </div>
           
               <div class="sidebar-panel hide-on-med-and-down" id="module">
-                <div class="header">Projet de Programmation</div>
-                <div id="module2"></div>
                 <div class="user-bas">
                   <div class="circle-logo"><img src="./img/0.png" id="imageid"/></div><h3 id="name-user-bas"></h3>
                   <script src="profile.js"></script>
@@ -154,8 +152,8 @@
 
         function display(elemt) {
           var x = document.getElementById(elemt);
-          document.getElementById('module2').innerHTML = "";
-          //document.getElementById('module2').innerHTML = '<div class="header">Projet de Programmation</div>';
+          document.getElementById('module').innerHTML = "";
+          document.getElementById('module').innerHTML = '<div class="header">Projet de Programmation</div>';
           if (!x){
             var test = "SELECT * FROM `cours` WHERE libelle_cours = "+elemt;
             //console.log(test);
@@ -165,7 +163,7 @@
                 console.log(res);
                 console.log(res.length)
 
-                document.getElementById('module2').insertAdjacentHTML('beforeEnd','<div class="items" style="display:block" id="'+result[i].libelle_cours+'"><a id="'+result[i].libelle_cours+'test" href="#"></a></div>');
+                document.getElementById('module').insertAdjacentHTML('beforeEnd','<div class="items" style="display:block" id="'+result[i].libelle_cours+'"><a id="'+result[i].libelle_cours+'test" href="#"></a></div>');
                   var j = 0;
                   for (let i = 0; i < res.length; i++) {
                     var toto = result[0].libelle_cours+"test";
@@ -178,7 +176,7 @@
                     
                     socket.emit('join-channel',res[i].libelle_module+"0");
                   }
-                  //document.getElementById(toto).insertAdjacentHTML('beforeEnd','<div class="messages-group hide-unless-show" id="'+res[0].id_cours+'"><div class="header">video'+result[0].id_cours+'</div><div class="messages" id = "'+res[i].libelle_module+"0"+'"></div></div>');
+                
                 });
                   
             })
@@ -196,34 +194,16 @@
           var socket = io();
             const def = "Utilisateur";
             const name = "test";
-            
-
-            let t = new Promise(function(resolve, reject) {
-              //var classe;
-              socket.emit('sql-select', "SELECT class FROM `users` WHERE id_user = "+getCookie("uid"), (result) =>{
-              console.log("classe :"+getCookie("uid"));
-              //classe = result[0].class;
-              //console.log(classe);
-              resolve(result[0].class);
-              })              
-            });
-            t.then((classe)=>{
-              socket.emit('sql-select', "SELECT * FROM `cours` WHERE id_classe =" +classe, (result) =>{
-              console.log(classe+"here");
+            socket.emit('user-created',name);
+            socket.emit('checklog');
+          
+          	socket.emit('sql-select', "SELECT * FROM `cours` WHERE 1", (result) =>{
+              //console.log(result);
               var test = "test";
               for (let i = 0; i < result.length; i++) {
                 document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
               }
             })
-            })
-            socket.emit('user-created',name);
-            socket.emit('checklog');
-            
-            
-            
-              
-            
-          	
             
             socket.emit('user-created',name);
             socket.emit('checklog');
@@ -251,9 +231,8 @@
             document.getElementById("uname").setAttribute('value',name);  
             var username = name;
             $("#msgform").submit(function(e) {
-
                 e.preventDefault(); // Pour pas que la page se recharge
-                console.log($("#msg").length);
+                
                 socket.emit("MessageSend",username, $("#msg").val(),new Date(),defaultId+0,getCookie("uid"),profile_link); //Envoyer au socket la val de #msg
                 $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
 
