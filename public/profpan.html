@@ -52,6 +52,16 @@
  
      <div class="col s12 m8 l9" id="main">
         <h2 id="center">Panel Professeur</h2><hr/>
+        <h2 id="center" style="font-size: 200%;">Créer une classe : </h2><hr/>
+        <table class="tabadmin" style="width: 100%;">
+          <tbody id="createclass">
+            <tr>
+              <td style="width: 10%;" class="tdadmin">Nom de la classe à créer</td>
+              <td style="width: 10%;" class="tdadmin"></td>
+            </tr>
+          </tbody>
+        </table>
+
         <h2 id="center" style="font-size: 200%;">Création de Cours pour vos classes</h2><hr/>
         <table class="tabadmin" style="width: 100%;">
           <tbody id="createcours">
@@ -83,6 +93,18 @@
           </tbody>
         </table>
         <script>
+          var classe = document.getElementById("createclass");
+          classe.insertAdjacentHTML('beforeend', '<tr><td style="width: 161px;" class="tdnom" ><input type="text" id="classtocreate" value=""><td> <button id="salut" type="button" style="color: black;background: orange;">Créer la classe</button> </td></tr>');
+          document.getElementById("salut").addEventListener("click", function() {
+              var newcname = document.getElementById("classtocreate").value;
+              console.log(newcname);
+              socket.emit('sql-update', 'INSERT INTO `classes` (`libelle_classe`, `id_user`) VALUES (\''+newcname+'\', \''+getCookie("uid")+'\')', (results) => {
+              console.log("SUCCES")
+              location.reload();
+              return false;
+              });
+              classtocreate.value = "";
+          });
           var node = document.getElementById("listallusers");
           var nodeCreate = document.getElementById("createcours");
           var nodeModule = document.getElementById("Liste modules");
