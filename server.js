@@ -151,12 +151,8 @@ app.post('/auth', function(request, response) {
                     } else {
                         return response.redirect('/log.html');
                     }			
-                    //response.end();
                 });
             } else {
-               // response.send('Please enter Username and Password!');
-            
-                //response.end();
             }
 	
 });
@@ -171,7 +167,6 @@ app.post('/reg', function(request, response) {
         connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, r, fields) {
             if(r.length>0){
                 response.send('Le pseudo est deja utilisé');
-                //return response.redirect('/register.html');
             }else if(password==passwordBis){
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(password, salt, function(err, hash) {
@@ -198,7 +193,6 @@ function test(uid){
     connection.connect(function(err) {
         connection.query("SELECT profile_picture FROM users WHERE id_user = ?",[uid], function (err, results, fields) {
           if (err) throw err;
-          //console.log(results[0].profile_picture);
           return results[0];
         });
       });
@@ -206,15 +200,7 @@ function test(uid){
 
 io.on('connection', (socket) => {
     var session = socket.handshake.session;
-
-    
-    
-
     socket.on('join-channel', name => {
-        //connection.query('SELECT * FROM message_log', function(error, results, fields){
-		//	io.emit('MessageSend',results[0].username,results[1].message,results[2].date);
-            
-        //})
         connection.connect(function(err) {
             connection.query("SELECT username, message, date, channel, user_id FROM message_log  WHERE channel= ?",[name], function (err, results, fields) {
               if (err) throw err;
@@ -223,11 +209,9 @@ io.on('connection', (socket) => {
                     connection.connect(function(err) {
                         connection.query("SELECT profile_picture FROM users WHERE id_user = ?",[key.user_id], function (err, res, fields) {
                           if (err) throw err;
-                          //console.log(results[0].profile_picture);
                           resolve( res[0].profile_picture);
                         });
                       });
-                    
                 });
                 a.then((t)=>{
                     io.emit('OldSend',key.username,key.message,key.date,key.channel,t);
@@ -236,15 +220,12 @@ io.on('connection', (socket) => {
                 });  
               })
             });
-
           });
     });
 
     socket.on('OldSend',(name,msg,hour,channel) =>{
         io.emit('OldSend',name,msg,hour,channel);
     });
-
-    
 
     socket.on('user-created', name => {
         user[socket.id] = name;
@@ -260,9 +241,6 @@ io.on('connection', (socket) => {
     socket.on('disconnecting', () => {
         io.emit('MessageSend', user[socket.id],"s'est déconnecté");
     });
-
-
-    
 
     socket.on('MessageSend',(name,msg,hour,channel,uid,prfPic) =>{
         if ( name && name.length>0 && name !=null ){
@@ -373,7 +351,6 @@ app.post(
     }
   );
 
-
   app.post(
     "/upload-pp",
     upload.single("file"),
@@ -410,7 +387,6 @@ app.post(
       }
     }
   );
-
 
 server.listen(port, () =>{
     console.log(`Ca demarre sur le port ${port}`)
