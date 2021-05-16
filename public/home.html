@@ -12,6 +12,7 @@
     <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
     <script src='/socket.io/socket.io.js'></script>
     <script src='scripts/script.js'></script>
+    
 </head>
 <body>
     <div class="row">
@@ -24,7 +25,24 @@
                 <li><a href="/home.html"><i class="fa fa-home" aria-hidden="true"></i> Accueil</a></li>
                 <li><a class="active" href="/profile.html"><i class="fa fa-address-card" aria-hidden="true"></i> Profil</a></li>
                 <li><a href="index.html"><i class="fa fa-paper-plane" aria-hidden="true"></i> Messages</a></li>
-                <li><a href="https://www.google.com/"><i class="fa fa-life-ring" aria-hidden="true"></i> Préférences</a></li>
+                <script>
+                    var socket = io();
+                      socket.emit('sql-select', "SELECT * FROM `users` WHERE id_user = "+getCookie("uid"), (result) =>{
+                      if(result[0].usertype==2){
+                        var idtoload = document.getElementById("listtab");
+                        idtoload.insertAdjacentHTML('beforeend', '<li><a href="adminpan.html"><i class="fa fa-life-ring" aria-hidden="true"></i> Panel Admin</a></li>');
+                      
+                      }
+                      else if(result[0].usertype==1){
+                        var idtoload = document.getElementById("listtab");
+                        idtoload.insertAdjacentHTML('beforeend', '<li><a href="profpan.html"><i class="fa fa-life-ring" aria-hidden="true"></i> Panel Professeur</a></li>');
+                      }
+                      else if(result[0].usertype==0){
+                        var idtoload = document.getElementById("listtab");
+                        idtoload.insertAdjacentHTML('beforeend', '<li><a href="userpan.html"><i class="fa fa-life-ring" aria-hidden="true"></i> Changer de Classe</a></li>');
+                      }
+                      })
+                </script>
                 <li><a href="writeArticle.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Écrire un article</a></li>
               </ul>
             </div>
@@ -56,7 +74,6 @@
 
 </html>
 <script>
-  var socket = io();
   socket.on("logged", username => {
     console.log("Hey");
     sessionStorage.setItem("username", username);
