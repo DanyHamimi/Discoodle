@@ -122,17 +122,13 @@ var currentChannel;
 
 
                })
+               
+                if(!getCookie("uid")){
+                    window.location.href = "/log.html";
+                }
                socket.emit('user-created',name);
                socket.emit('checklog');
                
-               
-               
-                 
-               
-             	
-               
-               socket.emit('user-created',name);
-               socket.emit('checklog');
                var idArray = [];
                $('.messages').each(function () {
                  idArray.push(this.id);
