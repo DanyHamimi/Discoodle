@@ -22,6 +22,13 @@ var currentChannel;
            function enableEmo(elem) {
              document.querySelector('#msg').value += elem.textContent;
            }
+           var typeText = 1;
+           function gText(){
+            typeText = 2;
+           }
+           function pText(){
+            typeText = 1;
+           }
          
            function display(elemt) {
              var x = document.getElementById(elemt);
@@ -138,15 +145,22 @@ var currentChannel;
                document.getElementById("uname").setAttribute('value',name);  
                var username = name;
                $("#msgform").submit(function(e) {
-         
-                   e.preventDefault(); // Pour pas que la page se recharge
-                   console.log($("#msg").length);
-                   socket.emit("MessageSend",username, $("#msg").val(),new Date(),defaultId+0,getCookie("uid"),profile_link); //Envoyer au socket la val de #msg
-                   $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
-         
-                   element = document.getElementById('msg-chan');
-               element.scrollTop = element.scrollHeight;
-                   return false;
+                  var emptyMsg = $("#msg").val() === "";
+                  if(emptyMsg === false){
+                    if(typeText===2){
+                      var s = "<h1>"+$("#msg").val();+"</h1>"
+                    }else{
+                      var s = $("#msg").val();
+                    }
+                    
+                    e.preventDefault(); // Pour pas que la page se recharge
+                    socket.emit("MessageSend",username,s,new Date(),defaultId+0,getCookie("uid"),profile_link); //Envoyer au socket la val de #msg
+                    $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
+          
+                    element = document.getElementById('msg-chan');
+                    element.scrollTop = element.scrollHeight;
+                    return false;
+                  }       
                });
               
                socket.on('MessageSend', function(name,msg,hour,channel1,usid,prfPic){
