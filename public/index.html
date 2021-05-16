@@ -119,16 +119,19 @@
          var button = document.getElementById('button');
          button.addEventListener('click', function() {
            if(currentChannel) {
+              
              this.innerHTML = "<i class=\"fa fa-microphone\"></i>";
              var myRoomId = currentChannel;
-             var a = "SELECT username FROM users WHERE id_user = " + getCookie("uid");
+             /*var a = "SELECT username FROM users WHERE id_user = " + getCookie("uid");
              var username;
              mySocket.emit("sql-select", a, (response) => {
                console.log(response +" this is resposnse")
                  username = response[0].username;
                  let roomUrl = "video.html?room=" + myRoomId + "&userId=" + username;
                  window.open(roomUrl); 
-             })
+             })*/
+               let roomUrl = "video.html?room=" + myRoomId + "&userId=" + getCookie("uid");
+               window.open(roomUrl); 
             }
              
            })
