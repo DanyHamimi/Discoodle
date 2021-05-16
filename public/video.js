@@ -85,29 +85,31 @@ function connectToUser(userId, stream) {
     })
 }
 
-function addVideoStream(video, stream, username) {
+function addVideoStream(video, stream, uid) {
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  console.log("Called with username : " +username)
+  console.log("Called with username : " +uid)
   var myDiv = document.createElement('div')
   const myCaption = document.createElement('span')
   var imageDiv = document.createElement('div')
   imageDiv.classList.add('circle-logo')
 
   var pp;
-  var a = "SELECT profile_picture FROM users WHERE id_user = " + getCookie("uid");
+  var a = "SELECT profile_picture FROM users WHERE id_user = " + uid;
   socket.emit("sql-select", a, (response) => {
       pp = response[0].profile_picture;
       imageDiv.innerHTML = '<img src="'+ pp + '" id="imageid">'
-      myCaption.innerHTML = username;
-      myDiv.classList.add("mainDiv")
-      myCaption.classList.add("mainCaption")
-      myDiv.append(video)
-      myDiv.append(myCaption)
-      myDiv.append(imageDiv)
-      videoGrid.append(myDiv)
+      socket.emit("sql-select", "SELECT username FROM users WHERE id_user = " + uid, (user_res) => {
+        myCaption.innerHTML = user_res[0].username;
+        myDiv.classList.add("mainDiv")
+        myCaption.classList.add("mainCaption")
+        myDiv.append(video)
+        myDiv.append(myCaption)
+        myDiv.append(imageDiv)
+        videoGrid.append(myDiv)
+      })
   })
 
   
