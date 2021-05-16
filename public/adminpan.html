@@ -95,14 +95,28 @@
               }
               else if(element.usertype == 1){
                 rank = "Professeur";
-                buttonsetrole = "<button name=\"setuser\" type=\"submit\" style=\"background-color: orange;\" >Set as user</button>";
+                buttonsetrole = "<button name=\"setuser\" type=\"submit\" style=\"background-color: orange;\" id=\"setasuser"+element.id_user+"\">Set as user</button>";
               }
               else{
                 rank = "Eleve";
-                buttonsetrole = "<button name=\"setuser\" type=\"submit\" style=\"background-color: green;\" >Set as professor</button>";
+                buttonsetrole = "<button name=\"setuser\" type=\"submit\" style=\"background-color: green;\" id=\"setasprof"+element.id_user+"\">Set as professor</button>";
               }
 
               node.insertAdjacentHTML('beforeend', '<tr> <td style="width: 161px;" class="tdnom">'+element.username+'</td> <td style="width: 139px;" class="tdnom">'+element.email+'</td> <td style="width: 81px;" class="tdnom">'+rank+' </td><td style="width: 142px;" class="tdnom">'+ buttonsetrole+'</td>');
+              if(element.usertype == 1){
+                document.getElementById('setasuser'+element.id_user).addEventListener("click", function() {
+                  socket.emit('sql-update', 'UPDATE `users` SET `usertype` = \'0\' WHERE `users`.`id_user` = '+element.id_user, (results) => {
+                    location.reload();
+              });
+              });
+              }
+              else if (element.usertype == 0){
+                document.getElementById("setasprof"+element.id_user).addEventListener("click", function() {
+                  socket.emit('sql-update', 'UPDATE `users` SET `usertype` = \'1\' WHERE `users`.`id_user` = '+element.id_user, (results) => {
+                    location.reload();
+              });
+              });
+              }
             });
           })
         </script>
