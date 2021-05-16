@@ -19,6 +19,7 @@ console.log(defaultId);
                 $(this).removeClass('show');
             }
         });
+        document.getElementById("chanName").setAttribute('value', id+0);
     };
 
     $(document).ready(function() {
@@ -34,23 +35,24 @@ console.log(defaultId);
         var id = $(this).attr('data');
         showGroup(id);
         console.log(id);
-       
+        lastId = id;
+
    });
    $(document).on('click', '.trigger-group-cours', function(){ 
-    socket.emit('sql-select', "SELECT usertype FROM `users` WHERE id_user = "+'"'+ getCookie("uid")+'"', (result) =>{
+    socket.emit('sql-select', "SELECT usertype FROM users WHERE id_user = "+'"'+ getCookie("uid")+'"', (result) =>{
         console.log(result);
         if(result[0].usertype===0){
             var msg_bar = document.getElementById("msgbar");
             msg_bar.style.visibility='hidden' 
         }
     })
-    
-    
+
+
     console.log("here");
     console.log($(this).attr('data'));
     var id = $(this).attr('data');
     showGroup(id);
     console.log(id);
-   
+
 });
 })(jQuery); // End of use strict

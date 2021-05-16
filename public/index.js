@@ -1,4 +1,6 @@
 var currentChannel;
+var globalChannel;
+
          
            
            function enableEmo(elem) {
@@ -16,7 +18,6 @@ var currentChannel;
              var x = document.getElementById(elemt);
              currentChannel = elemt;
              document.getElementById('module2').innerHTML = "";
-             document.getElementById('moduleName').innerHTML = elemt;
              //document.getElementById('module2').innerHTML = '<div class="header">Projet de Programmation</div>';
              if (!x){
                var test = "SELECT * FROM `cours` WHERE libelle_cours = "+elemt;
@@ -26,11 +27,11 @@ var currentChannel;
                  socket.emit('sql-select', "SELECT * FROM `modules` WHERE id_cours = "+'"'+result[0].id_cours+'"', (res) =>{
                    console.log(res);
                    console.log(res.length)
+         
                    document.getElementById('module2').insertAdjacentHTML('beforeEnd','<div class="items" style="display:block" id="'+result[0].libelle_cours+'"><a id="'+result[0].libelle_cours+'test" href="#"></a></div>');
                    var toto = result[0].libelle_cours+"test";  
                    document.getElementById(toto).insertAdjacentHTML('beforeEnd','<div class="iteminf">Cours</div>');
                      for (let i = 0; i < res.length; i++) {
-                       
                        console.log("'"+res[i].libelle_module+"'");
                        var p = document.contains(document.getElementById(res[i].libelle_module));
                        document.getElementById(toto).insertAdjacentHTML('beforeEnd','<div class="item trigger-group-cours" id="testtest" data="'+ res[i].libelle_module+ '">'+ res[i].libelle_module+ '</div>');
@@ -122,13 +123,8 @@ var currentChannel;
 
 
                })
-               
-                if(!getCookie("uid")){
-                    window.location.href = "/log.html";
-                }
                socket.emit('user-created',name);
                socket.emit('checklog');
-               
                var idArray = [];
                $('.messages').each(function () {
                  idArray.push(this.id);
@@ -150,8 +146,10 @@ var currentChannel;
                  console.log('FAIT');
                  window.location.href = "log.html"
                })
-               document.getElementById("uname").setAttribute('value',name);  
                var username = name;
+               var globalUsername;
+                
+
                $("#msgform").submit(function(e) {
                   var emptyMsg = $("#msg").val() === "";
                   if(emptyMsg === false){
@@ -162,6 +160,7 @@ var currentChannel;
                     }
                     
                     e.preventDefault(); // Pour pas que la page se recharge
+                    globalChannel = defaultId+0;
                     socket.emit("MessageSend",username,s,new Date(),defaultId+0,getCookie("uid"),profile_link); //Envoyer au socket la val de #msg
                     $("#msg").val(""); // On vide pr pouvoir renvoyer un msg 
           
@@ -170,7 +169,13 @@ var currentChannel;
                     return false;
                   }       
                });
+
+               //For Image Upload : 
+
               
+              
+              
+
                socket.on('MessageSend', function(name,msg,hour,channel1,usid,prfPic){
                  if (channel1 == defaultId+'0'){
                    var node = document.getElementById(defaultId+'0');
@@ -198,3 +203,9 @@ var currentChannel;
                  node.insertAdjacentHTML('beforeend', '<div class="message"><div class="icon"><img class="responsive-img" src="./ProfilDefault.png"/></div> <div class="body"> <div class="user-name">'+name+'</div> <div class="content"> <img src="'+img+'" style="max-width: 500px;"/></div> </div> </div>');
                });
            });
+
+           socket.emit("sql-select", "SELECT username FROM users WHERE id_user = " + getCookie('uid'), (response) => {
+            document.getElementById("username").setAttribute('value',response[0].username);
+          })
+          document.getElementById("uid").setAttribute('value',getCookie("uid"));
+          document.getElementById("date").setAttribute('value',new Date());
