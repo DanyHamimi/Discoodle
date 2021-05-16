@@ -110,15 +110,20 @@ var currentChannel;
                     console.log("user type = "+classe[1]);
                     var test = "test";
                     for (let i = 0; i < result.length; i++) {
-                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
+                      var str = result[i].libelle_cours; 
+                      var strSlice = str.slice(0, 2);
+                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + strSlice + '</button>');
                     }
                  })
               }else if(classe[1]==0){
+                console.log("cr");
                 socket.emit('sql-select', "SELECT * FROM `cours` WHERE id_classe =" +classe[0], (result) =>{
                   console.log("user type = "+classe[1]);
                     var test = "test";
                     for (let i = 0; i < result.length; i++) {
-                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
+                      var str = result[i].libelle_cours; 
+                      var strSlice = str.slice(0, 2);
+                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + strSlice+ '</button>');
                     }
                 })
               }else if(classe[1]==2){
@@ -126,7 +131,9 @@ var currentChannel;
                   console.log("user type = "+classe[1]);
                     var test = "test";
                     for (let i = 0; i < result.length; i++) {
-                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
+                      var str = result[i].libelle_cours; 
+                      var strSlice = str.slice(0, 2);
+                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + strSlice + '</button>');
                     }
                 })
               }
