@@ -83,6 +83,9 @@
           </tbody>
         </table>
         <script>
+          function reloada(){
+            location.reload();
+          }
           socket.emit('sql-select', 'SELECT * FROM `users` ORDER BY `users`.`usertype` DESC', (results) => {
             results.forEach(element => {
               console.log(element.email);
@@ -106,15 +109,15 @@
               if(element.usertype == 1){
                 document.getElementById('setasuser'+element.id_user).addEventListener("click", function() {
                   socket.emit('sql-update', 'UPDATE `users` SET `usertype` = \'0\' WHERE `users`.`id_user` = '+element.id_user, (results) => {
-                    location.reload();
               });
+              reloada();
               });
               }
               else if (element.usertype == 0){
                 document.getElementById("setasprof"+element.id_user).addEventListener("click", function() {
                   socket.emit('sql-update', 'UPDATE `users` SET `usertype` = \'1\' WHERE `users`.`id_user` = '+element.id_user, (results) => {
-                    location.reload();
               });
+              reloada();
               });
               }
             });

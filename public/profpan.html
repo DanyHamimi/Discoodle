@@ -52,6 +52,16 @@
  
      <div class="col s12 m8 l9" id="main">
         <h2 id="center">Panel Professeur</h2><hr/>
+        <h2 id="center" style="font-size: 200%;">Créer une classe : </h2><hr/>
+        <table class="tabadmin" style="width: 100%;">
+          <tbody id="createclass">
+            <tr>
+              <td style="width: 10%;" class="tdadmin">Nom de la classe à créer</td>
+              <td style="width: 10%;" class="tdadmin"></td>
+            </tr>
+          </tbody>
+        </table>
+
         <h2 id="center" style="font-size: 200%;">Création de Cours pour vos classes</h2><hr/>
         <table class="tabadmin" style="width: 100%;">
           <tbody id="createcours">
@@ -83,6 +93,21 @@
           </tbody>
         </table>
         <script>
+          function reloada(){
+            location.reload();
+          }
+          var classe = document.getElementById("createclass");
+          classe.insertAdjacentHTML('beforeend', '<tr><td style="width: 161px;" class="tdnom" ><input type="text" id="classtocreate" value=""><td> <button id="salut" type="button" style="color: black;background: orange;">Créer la classe</button> </td></tr>');
+          document.getElementById("salut").addEventListener("click", function() {
+              var newcname = document.getElementById("classtocreate").value;
+              if(newcname.length>1){
+                socket.emit('sql-update', 'INSERT INTO `classes` (`libelle_classe`, `id_user`) VALUES (\''+newcname+'\', \''+getCookie("uid")+'\')', (results) => {
+                console.log("SUCCES")
+                });
+                classtocreate.value = "";
+                reloada();
+              }
+          });
           var node = document.getElementById("listallusers");
           var nodeCreate = document.getElementById("createcours");
           var nodeModule = document.getElementById("Liste modules");
@@ -99,6 +124,7 @@
                           console.log("SUCCES")
                         });
                         message.value = "";
+                        reloada();
                         }
                         });
                 socket.emit('sql-select', 'SELECT * FROM `cours` WHERE `id_classe` = '+element.id_classe+'', (resultat) => {
@@ -114,6 +140,7 @@
                         socket.emit('sql-update', 'DELETE FROM `cours` WHERE `cours`.`id_cours` = '+element2.id_cours, (results) => {
                           console.log("OK");
                         });
+                        reloada();
                         });
                         document.getElementById(Module+"a").addEventListener("click", function() {
                         if(message2.value.length>0){
@@ -123,6 +150,7 @@
                           console.log("SUCCES")
                         });
                         message2.value = "";
+                        reloada();
                         }
                         });
                   socket.emit('sql-select', 'SELECT * FROM `modules` WHERE `id_cours` = '+element2.id_cours+'', (results2) => {
@@ -133,6 +161,7 @@
                         console.log(Modle);
                         socket.emit('sql-update', 'DELETE FROM `modules` WHERE `modules`.`id_module` = '+element3.id_module, (results) => {
                         });
+                        reloada();
                         });
                     });
                   });
