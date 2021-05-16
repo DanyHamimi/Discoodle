@@ -66,6 +66,25 @@
  
      <div class="col s12 m8 l9" id="main">
         <h2 id="center">Panel Professeur</h2><hr/>
+        <h2 id="center" style="font-size: 200%;">Création de Cours pour vos classes</h2><hr/>
+        <table class="tabadmin" style="width: 100%;">
+          <tbody id="createcours">
+            <tr>
+              <td style="width: 10%;" class="tdadmin">Nom de la classe</td>
+              <td style="width: 10%;" class="tdadmin">Nom du cours que vous souhaitez créer</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="center" style="font-size: 200%;">Gestion de vos cours</h2><hr/>
+        <table class="tabadmin" style="width: 100%;">
+          <tbody id="Liste modules">
+            <tr>
+              <td style="width: 33%;" class="tdadmin">Nom du cours</td>
+              <td style="width: 33%;" class="tdadmin">Classe affectée à ce cours</td>
+              <td style="width: 430px;" class="tdadmin">Nom du module à créer</td>
+            </tr>
+          </tbody>
+        </table>
         <table class="tabadmin" style="width: 100%;">
           <tbody id="listallusers">
             <tr>
@@ -79,21 +98,43 @@
         </table>
         <script>
           var node = document.getElementById("listallusers");
+          var nodeCreate = document.getElementById("createcours");
+          var nodeModule = document.getElementById("Liste modules");
           socket.emit('sql-select', 'SELECT * FROM `classes` WHERE `id_user` = '+getCookie("uid")+' ORDER BY `classes`.`id_classe` DESC', (results) => {
             results.forEach(element => {
-              socket.emit('sql-select', 'SELECT * FROM `cours` WHERE `id_classe` = '+element.id_classe+'', (resultat) => {
-                resultat.forEach(element2 => {
-                  socket.emit('sql-select', 'SELECT * FROM `modules` WHERE `id_cours` = '+element2.id_cours+'', (results2) => {
-                    results2.forEach(element3=>{
-                      var randNo = Math.floor(Math.random() * 100) + 2 + "" + new Date().getTime() +  Math.floor(Math.random() * 100) + 2 + (Math.random().toString(36).replace(/[^a-zA-Z]+/g, '').substr(0, 5));
-                      console.log(randNo);
-                      node.insertAdjacentHTML('beforeend', '<tr> <td style="width: 161px;" class="tdnom">'+element.libelle_classe+'</td> <td style="width: 139px;" class="tdnom">'+element2.libelle_cours+'</td> <td style="width: 81px;" class="tdnom">'+element3.libelle_module+' </td><td style="width: 142px;" class="tdnom"><input type="text" id="'+randNo+'" value=""> <button id="myButton" type="button">Créer le cours</button></td>');
-                        var message = document.getElementById(randNo);
-                        document.getElementById("myButton").addEventListener("click", function() {
+              var Cours = element.id_classe;
+              nodeCreate.insertAdjacentHTML('beforeend', '<tr> <td style="width: 161px;" class="tdnom" >'+element.libelle_classe+'</td>  </td><td style="width: 142px;" class="tdnom"><input type="text" id="'+Cours+'" value=""> <button id="'+Cours+"a"+'" type="button" style="color: black;">Créer le cours</button></td>');
+                var message = document.getElementById(Cours);
+                        document.getElementById(Cours+"a").addEventListener("click", function() {
                         if(message.value.length>0){
+                        console.log(Cours);
                         console.log(message.value);
+                        socket.emit('sql-update', 'INSERT INTO `cours`(`libelle_cours`, `id_classe`) VALUES ("'+message.value+'","'+Cours+'")', (results) => {
+                          console.log("SUCCES")
+                        });
+                        message.value = "";
                         }
                         });
+                socket.emit('sql-select', 'SELECT * FROM `cours` WHERE `id_classe` = '+element.id_classe+'', (resultat) => {
+                resultat.forEach(element2 => {
+                  var Module = element2.libelle_cours;
+                  nodeModule.insertAdjacentHTML('beforeend', '<tr> <td style="width: 161px;" class="tdnom" >'+element2.libelle_cours+'</td> <td style="width: 161px;" class="tdnom" >'+element.libelle_classe+'</td>  </td><td style="width: 142px;" class="tdnom"><input type="text" id="'+Module+'" value=""> <button id="'+Module+"a"+'" type="button" style="color: black;">Créer le module</button></td>');
+                  var message2 = document.getElementById(Module);
+                        document.getElementById(Module+"a").addEventListener("click", function() {
+                        if(message2.value.length>0){
+                        console.log(Module);
+                        console.log(message2.value);
+                        socket.emit('sql-update', 'INSERT INTO `modules`(`libelle_module`, `id_cours`) VALUES ("'+message2.value+'","'+element2.id_cours+'")', (results) => {
+                          console.log("SUCCES")
+                        });
+                        message2.value = "";
+                        }
+                        });
+                  socket.emit('sql-select', 'SELECT * FROM `modules` WHERE `id_cours` = '+element2.id_cours+'', (results2) => {
+                    results2.forEach(element3=>{
+
+                      node.insertAdjacentHTML('beforeend', '<tr> <td style="width: 161px;" class="tdnom">'+element.libelle_classe+'</td> <td style="width: 139px;" class="tdnom">'+element2.libelle_cours+'</td> <td style="width: 81px;" class="tdnom">'+element3.libelle_module+' </td><td style="width: 142px;" class="tdnom"></td>');
+
                     });
                   });
                 });

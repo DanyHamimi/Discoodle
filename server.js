@@ -326,7 +326,7 @@ io.on('connection', (socket) => {
 
     socket.on('sql-update', function(req, res) {
         connection.query(req, function(error, results, fields) {
-            if(!error) console.log("SUCESS");
+            if(!error) console.log("SUCCESS");
         })
     });
 
