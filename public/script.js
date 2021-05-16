@@ -27,6 +27,8 @@ console.log(defaultId);
 
 
     $(document).on('click', '.trigger-group', function(){ 
+        var msg_bar = document.getElementById("msgbar");
+        msg_bar.style.visibility='visible' 
         console.log("here");
         console.log($(this).attr('data'));
         var id = $(this).attr('data');
@@ -34,4 +36,21 @@ console.log(defaultId);
         console.log(id);
        
    });
+   $(document).on('click', '.trigger-group-cours', function(){ 
+    socket.emit('sql-select', "SELECT usertype FROM `users` WHERE id_user = "+'"'+ getCookie("uid")+'"', (result) =>{
+        console.log(result);
+        if(result[0].usertype===0){
+            var msg_bar = document.getElementById("msgbar");
+            msg_bar.style.visibility='hidden' 
+        }
+    })
+    
+    
+    console.log("here");
+    console.log($(this).attr('data'));
+    var id = $(this).attr('data');
+    showGroup(id);
+    console.log(id);
+   
+});
 })(jQuery); // End of use strict

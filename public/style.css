@@ -16,6 +16,15 @@ html { overflow-y: hidden; }
   overflow-x: hidden;
 }
 
+.iteminf {
+  color: white;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-left: 10px;
+  font-family:  Arial, Helvetica, sans-serif;
+  
+}
+
 .circle-logo {
   position: relative;
   width: 50px;
@@ -159,7 +168,7 @@ html { overflow-y: hidden; }
   width: 50px;
   
 }
-.discord-mockup .items-panel .items .item img {
+.discord-mockup .items-panel .items .item  img {
   border-radius: 50%;
   transition: all 0.3s ease;
 }
