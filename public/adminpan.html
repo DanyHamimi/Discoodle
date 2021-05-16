@@ -35,6 +35,11 @@
     return null;
     }
     var socket = io();
+    $(function (){
+    if(!getCookie("uid")){
+      window.location.href = "/log.html";
+    }
+  });
     socket.emit('sql-select', "SELECT * FROM `users` WHERE id_user = "+getCookie("uid"), (result) =>{
       console.log(result[0].usertype);
       if(result[0].usertype!=2){
