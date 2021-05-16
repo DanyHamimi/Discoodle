@@ -93,17 +93,20 @@
           </tbody>
         </table>
         <script>
+          function reloada(){
+            location.reload();
+          }
           var classe = document.getElementById("createclass");
           classe.insertAdjacentHTML('beforeend', '<tr><td style="width: 161px;" class="tdnom" ><input type="text" id="classtocreate" value=""><td> <button id="salut" type="button" style="color: black;background: orange;">Créer la classe</button> </td></tr>');
           document.getElementById("salut").addEventListener("click", function() {
               var newcname = document.getElementById("classtocreate").value;
-              console.log(newcname);
-              socket.emit('sql-update', 'INSERT INTO `classes` (`libelle_classe`, `id_user`) VALUES (\''+newcname+'\', \''+getCookie("uid")+'\')', (results) => {
-              console.log("SUCCES")
-              location.reload();
-              return false;
-              });
-              classtocreate.value = "";
+              if(newcname.length>1){
+                socket.emit('sql-update', 'INSERT INTO `classes` (`libelle_classe`, `id_user`) VALUES (\''+newcname+'\', \''+getCookie("uid")+'\')', (results) => {
+                console.log("SUCCES")
+                });
+                classtocreate.value = "";
+                reloada();
+              }
           });
           var node = document.getElementById("listallusers");
           var nodeCreate = document.getElementById("createcours");
@@ -121,6 +124,7 @@
                           console.log("SUCCES")
                         });
                         message.value = "";
+                        reloada();
                         }
                         });
                 socket.emit('sql-select', 'SELECT * FROM `cours` WHERE `id_classe` = '+element.id_classe+'', (resultat) => {
@@ -136,6 +140,7 @@
                         socket.emit('sql-update', 'DELETE FROM `cours` WHERE `cours`.`id_cours` = '+element2.id_cours, (results) => {
                           console.log("OK");
                         });
+                        reloada();
                         });
                         document.getElementById(Module+"a").addEventListener("click", function() {
                         if(message2.value.length>0){
@@ -145,6 +150,7 @@
                           console.log("SUCCES")
                         });
                         message2.value = "";
+                        reloada();
                         }
                         });
                   socket.emit('sql-select', 'SELECT * FROM `modules` WHERE `id_cours` = '+element2.id_cours+'', (results2) => {
@@ -155,6 +161,7 @@
                         console.log(Modle);
                         socket.emit('sql-update', 'DELETE FROM `modules` WHERE `modules`.`id_module` = '+element3.id_module, (results) => {
                         });
+                        reloada();
                         });
                     });
                   });
