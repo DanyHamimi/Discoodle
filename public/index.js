@@ -16,6 +16,7 @@ var currentChannel;
              var x = document.getElementById(elemt);
              currentChannel = elemt;
              document.getElementById('module2').innerHTML = "";
+             document.getElementById('moduleName').innerHTML = elemt;
              //document.getElementById('module2').innerHTML = '<div class="header">Projet de Programmation</div>';
              if (!x){
                var test = "SELECT * FROM `cours` WHERE libelle_cours = "+elemt;
@@ -25,7 +26,6 @@ var currentChannel;
                  socket.emit('sql-select', "SELECT * FROM `modules` WHERE id_cours = "+'"'+result[0].id_cours+'"', (res) =>{
                    console.log(res);
                    console.log(res.length)
-         
                    document.getElementById('module2').insertAdjacentHTML('beforeEnd','<div class="items" style="display:block" id="'+result[0].libelle_cours+'"><a id="'+result[0].libelle_cours+'test" href="#"></a></div>');
                    var toto = result[0].libelle_cours+"test";  
                    document.getElementById(toto).insertAdjacentHTML('beforeEnd','<div class="iteminf">Cours</div>');
