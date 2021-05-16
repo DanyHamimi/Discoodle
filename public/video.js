@@ -93,12 +93,24 @@ function addVideoStream(video, stream, username) {
   console.log("Called with username : " +username)
   var myDiv = document.createElement('div')
   const myCaption = document.createElement('span')
-  myCaption.innerHTML = username;
-  myDiv.classList.add("mainDiv")
-  myCaption.classList.add("mainCaption")
-  myDiv.append(video)
-  myDiv.append(myCaption)
-  videoGrid.append(myDiv)
+  var imageDiv = document.createElement('div')
+  imageDiv.classList.add('circle-logo')
+
+  var pp;
+  var a = "SELECT profile_picture FROM users WHERE id_user = " + getCookie("uid");
+  socket.emit("sql-select", a, (response) => {
+      pp = response[0].profile_picture;
+      imageDiv.innerHTML = '<img src="'+ pp + '" id="imageid">'
+      myCaption.innerHTML = username;
+      myDiv.classList.add("mainDiv")
+      myCaption.classList.add("mainCaption")
+      myDiv.append(video)
+      myDiv.append(myCaption)
+      myDiv.append(imageDiv)
+      videoGrid.append(myDiv)
+  })
+
+  
   //videoGrid.append(video)
 }
 
@@ -112,4 +124,24 @@ function leftCall() {
 
 function unmuteMic(){
   myVideo.muted = false;
+}
+
+function getCookie(name) {
+  // Split cookie string and get all individual name=value pairs in an array
+  var cookieArr = document.cookie.split(";");
+  
+  // Loop through the array elements
+  for(var i = 0; i < cookieArr.length; i++) {
+      var cookiePair = cookieArr[i].split("=");
+      
+      /* Removing whitespace at the beginning of the cookie name
+      and compare it with the given string */
+      if(name == cookiePair[0].trim()) {
+          // Decode the cookie value and return
+          return decodeURIComponent(cookiePair[1]);
+      }
+  }
+  
+  // Return null if not found
+  return null;
 }
