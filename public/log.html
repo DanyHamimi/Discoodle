@@ -8,6 +8,7 @@
     	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script src='/socket.io/socket.io.js'></script>
   		<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+		<script src='scripts/script.js'></script>
 	</head>
 	<body>
 		<div class="row">
@@ -52,6 +53,11 @@
             	});
 				socket.on('redirecthome',()=>{
               		document.getElementById('action').innerHTML = "Vous êtes déjà connecté! Vous allez être redirigé";
+					  if(getCookie("uid")){
+							setTimeout(function () {
+      							window.location.href = "/log.html";
+							}, 1000);
+    					}
             	});
 			});
 		
