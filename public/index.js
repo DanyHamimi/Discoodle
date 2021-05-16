@@ -94,21 +94,44 @@ var currentChannel;
                let t = new Promise(function(resolve, reject) {
                  //var classe;
                  socket.emit('sql-select', "SELECT class FROM `users` WHERE id_user = "+getCookie("uid"), (result) =>{
-                 console.log("classe :"+getCookie("uid"));
-                 //classe = result[0].class;
-                 //console.log(classe);
-                 resolve(result[0].class);
-                 })              
+                 //console.log("classe :"+getCookie("uid"));
+                 socket.emit('sql-select', "SELECT * FROM `users` WHERE id_user = "+getCookie("uid"), (res) =>{
+                   resolve([result[0].class,res[0].usertype]);
+                 })   
+                })
+                            
                });
                t.then((classe)=>{
-                 socket.emit('sql-select', "SELECT * FROM `cours` WHERE id_classe =" +classe, (result) =>{
-                 console.log(classe+"here");
-                 var test = "test";
-                 for (let i = 0; i < result.length; i++) {
-                   document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
-                 }
-                 
-               })
+                // console.log(classe[1]==1)
+                 if(classe[1]==1){
+                  console.log("user type = "+classe[1]);
+                  socket.emit('sql-select',"SELECT * FROM cours INNER JOIN classes WHERE classes.id_classe=cours.id_classe and classes.id_user =" +getCookie("uid"), (result) =>{
+                  
+                    console.log("user type = "+classe[1]);
+                    var test = "test";
+                    for (let i = 0; i < result.length; i++) {
+                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
+                    }
+                 })
+              }else if(classe[1]==0){
+                socket.emit('sql-select', "SELECT * FROM `cours` WHERE id_classe =" +classe[0], (result) =>{
+                  console.log("user type = "+classe[1]);
+                    var test = "test";
+                    for (let i = 0; i < result.length; i++) {
+                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
+                    }
+                })
+              }else if(classe[1]==2){
+                socket.emit('sql-select', "SELECT * FROM `cours`", (result) =>{
+                  console.log("user type = "+classe[1]);
+                    var test = "test";
+                    for (let i = 0; i < result.length; i++) {
+                      document.getElementById('item').insertAdjacentHTML('beforeEnd','<button class="guild-add" onclick=\'display("'+result[i].libelle_cours+'")\'>' + result[i].libelle_cours + '</button>');
+                    }
+                })
+              }
+
+
                })
                socket.emit('user-created',name);
                socket.emit('checklog');
@@ -175,7 +198,7 @@ var currentChannel;
          
                socket.on('OldSend', function(name,msg,hour,channel,prPic){
                  element = document.getElementById('msg-chan');
-             element.scrollTop = element.scrollHeight;
+                 element.scrollTop = element.scrollHeight;
                  var node = document.getElementById(channel);
                  if(node != null){
                    node.insertAdjacentHTML('beforeend', '<div class="message"> <div class="icon"><img class="responsive-img" src="'+prPic+'"/></div> <div class="body"> <div class="user-name">'+name+'</div><div class="hour">'+hour+'</div> <div class="content">'+msg+'</div> </div> </div>');
