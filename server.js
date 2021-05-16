@@ -247,7 +247,6 @@ io.on('connection', (socket) => {
     
 
     socket.on('user-created', name => {
-        console.log('Utilisateur connecté');
         user[socket.id] = name;
         var heure =new Date();
         io.emit('MessageSend',session.username,"est connecté",heure.getHours()+':'+ heure.getMinutes());
@@ -260,7 +259,6 @@ io.on('connection', (socket) => {
 
     socket.on('disconnecting', () => {
         io.emit('MessageSend', user[socket.id],"s'est déconnecté");
-        console.log(socket.rooms); // Set contient le socket ID
     });
 
 
