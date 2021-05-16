@@ -136,11 +136,9 @@ async function updateInfo() {
 </script>
 <script>
   $(function (){
-    var socket = io();
-    socket.emit('checklog');
-    socket.on('checklog',()=>{
-      window.location.href = "log.html"
-    })
+    if(!getCookie("uid")){
+      window.location.href = "log.html";
+    }
   });
 </script>
 </body>
