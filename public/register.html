@@ -59,9 +59,6 @@
 				socket.emit('islogged');
 				socket.on('redirecthome',()=>{
               		document.getElementById('action').innerHTML = "Vous êtes déjà connecté! Vous allez être redirigé";
-					setTimeout(function () {
-       					window.location.href = "index.html"; 
-    				}, 1000);
             	});
 			});
 		
